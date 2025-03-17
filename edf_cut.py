@@ -1,0 +1,60 @@
+import numpy as np
+import pyedflib
+
+def cut_edf(edf_path, output_path, start_sample, num_samples):
+
+  # Open the EDF file
+    with pyedflib.EdfReader(edf_path) as edf:
+      num_signals = edf.signals_in_file  # Get the number of signals in the file
+
+      # Get signal labels and frequences
+      signal_labels = edf.getSignalLabels()
+      sig_freqs = [edf.getSampleFrequency(i) for i in range(num_signals)]
+
+      # Get signals and slice them
+      all_sig=[]
+      for i in range(num_signals):
+        signal = edf.readSignal(i, digital=True)
+        signal = signal[start_sample:start_sample + num_samples]
+        all_sig.append(signal)
+
+      # Write
+      with pyedflib.EdfWriter(output_path, num_signals, file_type=pyedflib.FILETYPE_EDFPLUS) as edf_new:
+
+        #Set channel informations
+        channel_info = []
+        for i in range(num_signals):
+          pmin=np.min(all_sig[i])
+          pmax=np.max(all_sig[i])
+
+
+          if "Off" in signal_labels[i] and pmax == pmin:
+            pmin = pmax - 1
+
+          elif pmax == pmin:
+            pmax += 0.01
+
+
+          channel_info.append({
+                "label": signal_labels[i],
+                "dimension": "uV",
+                "sample_frequency": sig_freqs[i],
+                "physical_min": pmin,
+                "physical_max": pmax,
+                "digital_min": -32768,
+                "digital_max": 32767,
+                "transducer": "",
+                "prefilter": "",
+            })
+        edf_new.setSignalHeaders(channel_info)
+
+        # Write the signals into the EDF
+        edf_new.writeSamples(all_sig)
+
+      edf._close()
+      edf_new.close()
+
+
+if __name__ == "__main__":
+
+  cut_edf("mesa-sleep-0006.edf", "test2.edf", 10000, 30000)
