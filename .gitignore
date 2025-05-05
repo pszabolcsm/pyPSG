@@ -1,6 +1,11 @@
 temp_dir
 .idea
 .venv
+data
+__pycache__
+old_stuff
 PPG.mat
 ICU_COVID_patient1.csv
 pobm_env.yml
+mesa-sleep-0006.edf
+sample_cut.edf

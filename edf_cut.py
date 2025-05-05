@@ -1,7 +1,8 @@
 import numpy as np
 import pyedflib
 
-def cut_edf(edf_path, output_path, start_sample, num_samples):
+
+def cut_edf(edf_path, output_path, start_time, duration):   #Time is specified in sec
 
   # Open the EDF file
     with pyedflib.EdfReader(edf_path) as edf:
@@ -14,7 +15,9 @@ def cut_edf(edf_path, output_path, start_sample, num_samples):
       # Get signals and slice them
       all_sig=[]
       for i in range(num_signals):
-        signal = edf.readSignal(i, digital=True)
+        start_sample =int(start_time * sig_freqs[i])
+        num_samples = int(duration * sig_freqs[i])
+        signal = edf.readSignal(i, digital=False)
         signal = signal[start_sample:start_sample + num_samples]
         all_sig.append(signal)
 
@@ -28,10 +31,10 @@ def cut_edf(edf_path, output_path, start_sample, num_samples):
           pmax=np.max(all_sig[i])
 
 
-          if "Off" in signal_labels[i] and pmax == pmin:
+          if "Off" in signal_labels[i] and pmax == pmin: #TODO: min és max csatornák ált. beállítása
             pmin = pmax - 1
 
-          elif pmax == pmin:
+          elif pmax == pmin: #TODO: min és max csatornák ált. beállítása
             pmax += 0.01
 
 
@@ -57,4 +60,4 @@ def cut_edf(edf_path, output_path, start_sample, num_samples):
 
 if __name__ == "__main__":
 
-  cut_edf("mesa-sleep-0006.edf", "test2.edf", 10000, 30000)
+  cut_edf("old_stuff/mesa-sleep-0006.edf", "20p.edf", 12000, 1200)
