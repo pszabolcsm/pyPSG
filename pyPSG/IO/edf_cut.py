@@ -1,6 +1,8 @@
 import numpy as np
 import pyedflib
 
+from pyPPG.datahandling import save_data
+
 
 def cut_edf(edf_path, output_path, start_time, duration):   #Time is specified in sec
 
@@ -56,6 +58,8 @@ def cut_edf(edf_path, output_path, start_time, duration):   #Time is specified i
 
       edf._close()
       edf_new.close()
+      
+
 
 
 if __name__ == "__main__":

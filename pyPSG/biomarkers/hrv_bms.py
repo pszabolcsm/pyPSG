@@ -505,6 +505,8 @@ def comp_freq(segment, vlf_band = [0.003, 0.04], lf_band = [0.04,  0.15], hf_ban
 
 
 def get_all_metrics(rr_intervals):
+    rr_intervals = np.asarray(rr_intervals, dtype=np.float64).flatten()
+    
     AVNN = comp_AVNN(rr_intervals)
     SDNN = comp_SDNN(rr_intervals)
     RMSSD = comp_RMSSD(rr_intervals)
@@ -567,7 +569,7 @@ def get_all_metrics(rr_intervals):
 
 if __name__ == "__main__":
     a = 0
-    # edf_path = "test03.edf"
+    # edf_path = "sample.edf"
     # channels = ["SpO2", "Pleth", "EKG"]
     # patient_name = "Patient_1"
     #
