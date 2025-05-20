@@ -1,0 +1,23 @@
+version: 2
+# Version of the config file (don't worry about it)
+
+build:
+  os: ubuntu-22.04
+  # Docker image used to build (don't worry about it)
+  tools:
+    python: "3.10"
+    # Python version
+
+sphinx:
+  configuration: docs/source/conf.py
+  # Location of your sphinx config file
+
+python:
+  install:
+  # What to install
+    - requirements: requirements.txt # Requirements for using your package
+    # Your dependencies. You can provide multiple ones:
+    # one for building the docs, one for just installing your package
+    - method: pip
+      path: .
+      # Install your package using `pip .` before building the docs
