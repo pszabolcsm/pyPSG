@@ -30,14 +30,10 @@ dependencies = {file = ["requirements.txt"]}
 
 [project.urls]
 Homepage = "https://github.com/pszabolcsm/pyPSG"
-Documentation = ""
+Documentation = "http://your-readthedocs.com"
 Repository = "https://github.com/pszabolcsm/pyPSG.git"
 Issues = "http://https://github.com/pszabolcsm/pyPSG/issues"
 
 [tool.setuptools]
 # Name of the package directory
-packages = [
-    { include = "pyPSG"},
-    { include = "biomarkers", from = "pyPSG" },
-    { include = "IO", from = "pyPSG" }
-]
+packages = ["pyPSG", "pyPSG.IO", "pyPSG.biomarkers"]

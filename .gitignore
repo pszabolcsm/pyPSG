@@ -9,3 +9,5 @@ ICU_COVID_patient1.csv
 pobm_env.yml
 mesa-sleep-0006.edf
 sample_cut.edf
+dist
+*.egg-info
