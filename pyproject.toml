@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyPSG"
+version = "1.0.0"
+authors = [
+  { name="Szabolcs M. Péter"},
+  { name="Marton A. Goda, PhD"},
+]
+maintainers = [
+  { name="Szabolcs M. Péter", email = "peter.szabolcs.matyas@hallgato.ppke.hu"},
+]
+description = "Python toolbox for PPG, ECG, SPO2 and HRV analysis"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Implementation",
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+# Get dependencies dynamically from requirements.txt
+dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+Homepage = "https://github.com/pszabolcsm/pyPSG"
+Documentation = ""
+Repository = "https://github.com/pszabolcsm/pyPSG.git"
+Issues = "http://https://github.com/pszabolcsm/pyPSG/issues"
+
+[tool.setuptools]
+# Name of the package directory
+packages = [
+    { include = "pyPSG"},
+    { include = "biomarkers", from = "pyPSG" },
+    { include = "IO", from = "pyPSG" }
+]
