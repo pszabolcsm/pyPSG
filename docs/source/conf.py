@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'pyPSG'
-copyright = '2025, Péter Szabolcs Mátyás'
-author = 'Péter Szabolcs Mátyás'
+copyright = '2025, Szabolcs M. Péter'
+author = 'Szabolcs M. Péter'
 release = '1.0.0.'
 
 # -- General configuration ---------------------------------------------------
@@ -24,5 +24,5 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
-html_static_path = ['_static']
+html_theme = 'sphinx_rtd_theme'
+# html_static_path = ['_static']

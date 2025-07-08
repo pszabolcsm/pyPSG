@@ -18,7 +18,7 @@ Each signal undergoes preprocessing using its corresponding module (pyPPG, pecg,
 In the case of PPG and ECG, fiducial points are detected to derive beat-to-beat intervals, which are then forwarded to the mhrv module for HRV/BRV analysis. 
 Biomarkers are extracted separately from all three signal types, and the results are aggregated and saved for further data analysis.
 
-![](figs/pipeline.png)
+![](docs/figs/pipeline.png)
 
 ## Installation
 

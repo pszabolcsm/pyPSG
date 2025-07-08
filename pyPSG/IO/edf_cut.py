@@ -4,7 +4,21 @@ import pyedflib
 from pyPPG.datahandling import save_data
 
 
-def cut_edf(edf_path, output_path, start_time, duration):   #Time is specified in sec
+def cut_edf(edf_path, output_path, start_time, duration): #Time is specified in sec
+    """
+            Extract a segment from an EDF file and save it as a new EDF file. Time is specified in sec.
+  
+            :param edf_path: Path to the input EDF file.
+            :type edf_path: str
+            :param output_path: Path where the new EDF file will be saved.
+            :type output_path: str
+            :param start_time: Start time of the segment to cut (in seconds).
+            :type start_time: float
+            :param duration: Duration of the segment to cut (in seconds).
+            :type duration: float
+  
+            :return: None
+            """
 
   # Open the EDF file
     with pyedflib.EdfReader(edf_path) as edf:
@@ -31,12 +45,12 @@ def cut_edf(edf_path, output_path, start_time, duration):   #Time is specified i
         for i in range(num_signals):
           pmin=np.min(all_sig[i])
           pmax=np.max(all_sig[i])
-
-
-          if "Off" in signal_labels[i] and pmax == pmin: #TODO: min és max csatornák ált. beállítása
+          
+          # Handle flat signals to ensure the physical range is non-zero to avoid error
+          if "Off" in signal_labels[i] and pmax == pmin:
             pmin = pmax - 1
 
-          elif pmax == pmin: #TODO: min és max csatornák ált. beállítása
+          elif pmax == pmin:
             pmax += 0.01
 
 

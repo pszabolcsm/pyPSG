@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction &mdash; pyPSG 1.0.0. documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=58f5e731"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyPSG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="moduls.html">pyPSG</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyPSG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/README.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
+<p>Dedicated toolboxes have been developed for the analysis of individual physiological signals.
+However, for the purpose of fast and efficient data analysis, there was a need to unify these separate modules.
+To address this gap, pyPSG was developed — a Python-based toolbox capable of handling and analyzing various types of physiological signals within a single environment.
+The toolbox standardizes the signal processing workflow across data from different sources and also enables the preprocessing of physiological signals for machine learning applications.
+During development, modularity was a key consideration to allow future expansion with additional biological signals.</p>
+</section>
+<section id="description">
+<h1>Description<a class="headerlink" href="#description" title="Link to this heading"></a></h1>
+<p>Input data, raw signals are first unified in the EDF (European Data Format) structure.
+The pipeline processes three parallel signal branches: PPG, ECG, and SpO2.
+Each signal undergoes preprocessing using its corresponding module (pyPPG, pecg, or pobm).
+In the case of PPG and ECG, fiducial points are detected to derive beat-to-beat intervals, which are then forwarded to the mhrv module for HRV/BRV analysis.
+Biomarkers are extracted separately from all three signal types, and the results are aggregated and saved for further data analysis.</p>
+<a class="reference internal image-reference" href="_images/pipeline.png"><img alt="_images/pipeline.png" class="align-center" src="_images/pipeline.png" style="width: 888.0px; height: 761.5px;" /></a>
+</section>
+<section id="requirements">
+<h1>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h1>
+<section id="python-requirements">
+<h2>Python requirements:<a class="headerlink" href="#python-requirements" title="Link to this heading"></a></h2>
+<p>Python == 3.10</p>
+<p>scipy==1.9.1</p>
+<p>numpy==1.23.2</p>
+<p>pandas==1.4.4</p>
+<p>dotmap==1.3.30</p>
+<p>wfdb==3.4.0</p>
+<p>mne==1.5.0</p>
+</section>
+<section id="system-requirements">
+<h2>System requirements:<a class="headerlink" href="#system-requirements" title="Link to this heading"></a></h2>
+<p>To run the ECG wavdet fiducial-points detector <a class="reference external" href="https://www.mathworks.com/products/compiler/matlab-runtime.html">matlab runtime (MCR) 2021a</a> is required.</p>
+<p>If you wish to use the epltd peak detector <a class="reference external" href="https://archive.physionet.org/physiotools/wfdb-linux-quick-start.shtml.">additional wfdb toolbox</a> is required.</p>
+<p>If you don’t want or can’t install this - It’s Ok! you can use another peak detector from the package.</p>
+</section>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>Available on pip, with the command: <strong>pip install pyPSG-toolbox</strong></p>
+<p>pip project:</p>
+<section id="matlab-runtime-installation">
+<h2>Matlab runtime installation:<a class="headerlink" href="#matlab-runtime-installation" title="Link to this heading"></a></h2>
+<p>Follow the guidelines provided in the link: <a class="reference external" href="https://www.mathworks.com/products/compiler/matlab-runtime.html">https://www.mathworks.com/products/compiler/matlab-runtime.html</a>, and choose the version of 2021a(9.10).</p>
+</section>
+</section>
+<section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://pypsg-github.readthedocs.io/en/latest/">https://pypsg-github.readthedocs.io/en/latest/</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Szabolcs M. Péter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

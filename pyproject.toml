@@ -30,7 +30,7 @@ dependencies = {file = ["requirements.txt"]}
 
 [project.urls]
 Homepage = "https://github.com/pszabolcsm/pyPSG"
-Documentation = "http://your-readthedocs.com"
+Documentation = "https://pypsg-github.readthedocs.io/en/latest/"
 Repository = "https://github.com/pszabolcsm/pyPSG.git"
 Issues = "http://https://github.com/pszabolcsm/pyPSG/issues"
 

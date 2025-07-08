@@ -1,7 +1,11 @@
 from pyPSG.IO.edf_read import read_edf_signals
 from pyPSG.IO.data_handling import save_data
+from pyPSG.biomarkers.get_spo2_bm import get_spo2_biomarkers
+from pyPSG.biomarkers.get_ecg_bm import get_ecg_biomarkers
+from pyPSG.biomarkers.get_ppg_bm import get_ppg_biomarkers
+from pyPSG.biomarkers.get_hrv_bm import get_hrv_biomarkers
 
-def biomarker_extractor(edf_path, matlab_path, channels = {"ppg": "", "ecg": "", "spo2": ""}): #TODO channel nevek dict-ben
+def biomarker_extractor(edf_path, matlab_path, channels = {"ppg": "", "ecg": "", "spo2": ""}):
     
     for ch, name in channels.items():
         if name == "":
@@ -28,10 +32,10 @@ def biomarker_extractor(edf_path, matlab_path, channels = {"ppg": "", "ecg": "",
 if __name__ == "__main__":
     matlab_path = r'C://Program Files//MATLAB//MATLAB Runtime//v910//runtime//win64'
     
-    channels = {"ppg": "Pleth", "ecg": "EKG", "spo2": "SpO2"}
+    channels = {"ppg": "Pleth", "ecg": "ECG1"}
     
-    extracted_bms = biomarker_extractor("../sample.edf", matlab_path, channels)
+    extracted_bms = biomarker_extractor("meas3.edf", matlab_path, channels)
     
-    save_data(extracted_bms, "biomarkers")
+    save_data(extracted_bms, "biomarkers03")
     
     print(extracted_bms)

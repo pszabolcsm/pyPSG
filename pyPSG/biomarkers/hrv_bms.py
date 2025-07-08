@@ -3,11 +3,6 @@ import pandas as pd
 from scipy.signal import welch, get_window
 from scipy.interpolate import interp1d
 
-from pecg import Preprocessing as Pre
-from pecg.ecg import FiducialPoints as Fp
-from pecg.ecg import Biomarkers as Bm
-
-import matplotlib.pyplot as plt
 
 ## Time-domain metrics
 
@@ -589,25 +584,3 @@ if __name__ == "__main__":
     # fp = Fp.FiducialPoints(signal, fs)
     #
     # r_peaks = fp.jqrs()  #TODO: epltd function error, txt
-    #
-    # ecg_rr_intervals = np.diff(r_peaks) / fs
-    #
-    # (
-    #     total_power,
-    #     vlf_power,
-    #     lf_power,
-    #     hf_power,
-    #     vlf_norm,
-    #     lf_norm,
-    #     hf_norm,
-    #     lf_hf_ratio
-    # ) = comp_freq(ecg_rr_intervals)
-    #
-    # print(f"Total Power       : {total_power}")
-    # print(f"VLF Power         : {vlf_power:.}")
-    # print(f"LF Power          : {lf_power:}")
-    # print(f"HF Power          : {hf_power:}")
-    # print(f"VLF Norm          : {vlf_norm:}")
-    # print(f"LF Norm           : {lf_norm:}")
-    # print(f"HF Norm           : {hf_norm:}")
-    # print(f"LF/HF Ratio       : {lf_hf_ratio:}")
