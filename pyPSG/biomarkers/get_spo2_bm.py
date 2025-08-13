@@ -8,6 +8,34 @@ from pobm.obm.periodicity import PRSAMeasures, PSDMeasures
 from pobm.prep import set_range, median_spo2
 
 def features_all_desat(signal, time_signal, ODI_Threshold=6, hard_threshold=88, relative=True, desat_max_length=14400):
+    '''
+        Extracts desaturation event features from a given oxygen saturation (SpO2) signal.
+
+        :param signal: The input SpO2 signal (oxygen saturation values).
+        :type signal: array-like
+        :param time_signal: Time vector corresponding to the SpO2 signal samples.
+        :type time_signal: array-like
+        :param ODI_Threshold: Minimum relative drop in SpO2 (in %) to classify as a desaturation event.
+        :type ODI_Threshold: int, optional (default=6)
+        :param hard_threshold: Absolute SpO2 threshold. Values below this are considered desaturations regardless of relative drop.
+        :type hard_threshold: int, optional (default=88)
+        :param relative: Whether to use a relative drop from baseline to detect desaturations.
+        :type relative: bool, optional (default=True)
+        :param desat_max_length: Maximum duration of a desaturation event (in sample points).
+        :type desat_max_length: int, optional (default=14400)
+
+        :return: A DataFrame containing detected desaturation events and their features.
+            Columns include:
+                - begin: Start time of the desaturation event.
+                - end: End time of the desaturation event.
+                - begin_idx: Start index in the signal.
+                - end_idx: End index in the signal.
+                - depth: Maximum depth of the desaturation.
+                - length: Duration of the desaturation event.
+                - area: Area under the desaturation curve based on maximum value.
+        '''
+    
+    # Convert signal into a 1D array
     time_signal = np.array(time_signal)
 
     desat_class = DesaturationsMeasures(ODI_Threshold=ODI_Threshold, hard_threshold=hard_threshold, relative=relative,
@@ -69,21 +97,36 @@ def features_all_desat(signal, time_signal, ODI_Threshold=6, hard_threshold=88, 
 
 
 def extract_biomarkers_per_signal(signal, patient, time_begin, time_end):
+    '''
+    This function extracts SpO2 biomarkers per signal.
+        :param signal: The input SpO2 signal (oxygen saturation values).
+        :type signal: array-like
+        :param time_begin:
+        :param time_end:
+        :return: dictionary of SpO2 biomarkers
+        '''
+    
+    # Compute complexity features
     complexity_class = ComplexityMeasures()
     results_complexity = complexity_class.compute(signal)
-
+    
+    # Compute desaturation biomarkers
     desat_class = DesaturationsMeasures()
     results_desat = desat_class.compute(signal)
-
+    
+    # Compute hypoxic burden features
     hypoxic_class = HypoxicBurdenMeasures(results_desat.begin, results_desat.end)
     results_hypoxic = hypoxic_class.compute(signal)
-
+    
+    # Compute overall general features
     statistics_class = OverallGeneralMeasures()
     results_overall = statistics_class.compute(signal)
-
+    
+    # Compute PRSA features
     prsa_class = PRSAMeasures()
     results_PRSA = prsa_class.compute(signal)
-
+    
+    # Compute PSD features
     psd_class = PSDMeasures()
     results_PSD = psd_class.compute(signal)
 
@@ -145,8 +188,21 @@ def extract_biomarkers_per_signal(signal, patient, time_begin, time_end):
     return biomarkers
 
 def get_spo2_biomarkers(signal, fs, patient_name="Unknown"):
+    '''
+        This function preprocesses the SpO2 signal, then computes the biomarkers.
+
+        :param signal: SpO2 signal
+        :type signal: np.ndarray
+        :param fs: sampling frequency
+        :type fs: float
+        :return: dictionary of SpO2 biomarkers
+        '''
+    
+    # Remove values lower than 50 and greater than 100
     spo2_signal = set_range(signal)
+    # Apply median filter to the SpO2 signal
     spo2_signal = median_spo2(spo2_signal, FilterLength=301)
+    # Calculate the time signal
     time_signal = np.arange(0, len(spo2_signal)) / fs
     
     biomarker = pd.DataFrame()
@@ -154,6 +210,7 @@ def get_spo2_biomarkers(signal, fs, patient_name="Unknown"):
     time_begin = time_signal[0]
     time_end = time_signal[-1]
     
+    # Compute biomarkers
     biomarker = extract_biomarkers_per_signal(spo2_signal, patient_name, time_begin, time_end)
     
     return biomarker

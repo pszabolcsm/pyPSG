@@ -19,6 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Heart Rate variability biomarkers" href="hrv_bm.html" />
     <link rel="prev" title="Biomarkers" href="biomarkers.html" /> 
 </head>
 
@@ -47,7 +48,10 @@
 <li class="toctree-l2"><a class="reference internal" href="IO.html">Data handling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="biomarkers.html">Biomarkers</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pyPSG other modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pypsg-all-bms">pyPSG.all_BMs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.pypsg_example">pyPSG.pypsg_example</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.pypsg_example.pypsg_example"><code class="docutils literal notranslate"><span class="pre">pypsg_example()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.utils">pyPSG.utils</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyPSG.utils.HiddenPrints"><code class="docutils literal notranslate"><span class="pre">HiddenPrints</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyPSG.utils.plot_leads"><code class="docutils literal notranslate"><span class="pre">plot_leads()</span></code></a></li>
@@ -55,6 +59,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="hrv_bm.html">Heart Rate variability biomarkers</a></li>
 </ul>
 </li>
 </ul>
@@ -86,8 +91,37 @@
              
   <section id="pypsg-other-modules">
 <h1>pyPSG other modules<a class="headerlink" href="#pypsg-other-modules" title="Link to this heading"></a></h1>
-<section id="pypsg-all-bms">
-<h2>pyPSG.all_BMs<a class="headerlink" href="#pypsg-all-bms" title="Link to this heading"></a></h2>
+<p>This section covers additional pyPSG modules, including example function and utility tools for signal processing</p>
+<section id="module-pyPSG.pypsg_example">
+<span id="pypsg-pypsg-example"></span><h2>pyPSG.pypsg_example<a class="headerlink" href="#module-pyPSG.pypsg_example" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.pypsg_example.pypsg_example">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.pypsg_example.</span></span><span class="sig-name descname"><span class="pre">pypsg_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edf_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matlab_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'ecg':</span> <span class="pre">'',</span> <span class="pre">'ppg':</span> <span class="pre">'',</span> <span class="pre">'spo2':</span> <span class="pre">''}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.pypsg_example.pypsg_example" title="Link to this definition"></a></dt>
+<dd><p>Demonstrates the usage of the pyPSG toolbox to read an EDF file, visualize raw signals,
+compute heart rate variability (HRV) and breath rate variability (BRV),
+and extract biomarkers for PPG, ECG, and SpO₂ signals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edf_path</strong> (<em>str</em>) – Path to the EDF file containing the physiological signals.</p></li>
+<li><p><strong>matlab_path</strong> (<em>str</em>) – Path to the MATLAB executable (required for ECG fiducial point detection and HRV computation).</p></li>
+<li><p><strong>channels</strong> (<em>dict</em>) – Dictionary mapping signal types to EDF channel names.
+Keys can include “ppg”, “ecg”, and “spo2”.
+Values are the corresponding channel names in the EDF file.
+Empty string values indicate that a channel should be ignored.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None. The function generates plots of the raw data and HRV/BRV,
+extracts biomarkers for the available channels, and saves them
+into a <cite>.mat</cite> file in the directory <cite>temp_dir/biomarkers</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-pyPSG.utils">
 <span id="pypsg-utils"></span><h2>pyPSG.utils<a class="headerlink" href="#module-pyPSG.utils" title="Link to this heading"></a></h2>
@@ -95,12 +129,29 @@
 <dt class="sig sig-object py" id="pyPSG.utils.HiddenPrints">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyPSG.utils.</span></span><span class="sig-name descname"><span class="pre">HiddenPrints</span></span><a class="headerlink" href="#pyPSG.utils.HiddenPrints" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Context manager to temporarily suppress console output.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.utils.plot_leads">
 <span class="sig-prename descclassname"><span class="pre">pyPSG.utils.</span></span><span class="sig-name descname"><span class="pre">plot_leads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">range(0,</span> <span class="pre">12)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peaks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(8,</span> <span class="pre">4)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.utils.plot_leads" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Plots multiple ECG leads from one or more signals with optional peak markers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signals</strong> (<em>list</em><em> of </em><em>np.ndarray</em>) – List of 2D numpy arrays, each representing an ECG signal (samples x leads).</p></li>
+<li><p><strong>fs</strong> (<em>float</em>) – Sampling frequency of the signals in Hz.</p></li>
+<li><p><strong>leads</strong> (<em>iterable</em><em> of </em><em>int</em><em>, </em><em>optional</em>) – Indices of leads to plot. Defaults to all 12 leads.</p></li>
+<li><p><strong>labels</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – List of labels for each signal, used in the legend.</p></li>
+<li><p><strong>peaks</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary of peak positions to overlay on the plots, keys are labels and values are 2D arrays (samples x leads).</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Figure size in inches (width, height).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 </section>
@@ -110,6 +161,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="biomarkers.html" class="btn btn-neutral float-left" title="Biomarkers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hrv_bm.html" class="btn btn-neutral float-right" title="Heart Rate variability biomarkers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

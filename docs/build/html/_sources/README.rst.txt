@@ -28,17 +28,21 @@ Python requirements:
 
 Python == 3.10
 
-scipy==1.9.1
+pecg == 2.0.5
 
-numpy==1.23.2
+pyPPG == 1.0.73
 
-pandas==1.4.4
+scipy == 1.9.1
 
-dotmap==1.3.30
+numpy == 1.23.2
 
-wfdb==3.4.0
+pandas == 1.4.4
 
-mne==1.5.0
+dotmap == 1.3.30
+
+wfdb == 3.4.0
+
+mne == 1.5.0
 
 
 System requirements:

@@ -1,8 +1,10 @@
 Data handling
 =============
 
+These moduls are responsible for data handling, including reading, saving, cutting and plotting.
+
 pyPSG.IO.data_handling
--------------
+-----------------------
 
 .. automodule:: pyPSG.IO.data_handling
    :members:
@@ -10,7 +12,7 @@ pyPSG.IO.data_handling
    :show-inheritance:
 
 pyPSG.IO.edf_cut
------------
+-----------------
 
 .. automodule:: pyPSG.IO.edf_cut
    :members:
@@ -18,9 +20,17 @@ pyPSG.IO.edf_cut
    :show-inheritance:
 
 pyPSG.IO.edf_read
------------
+------------------
 
 .. automodule:: pyPSG.IO.edf_read
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pyPSG.IO.plot
+------------------
+
+.. automodule:: pyPSG.IO.plot
    :members:
    :undoc-members:
    :show-inheritance:

@@ -24,5 +24,6 @@ def read_edf_signals(edf_path, channel_names):
                 idx = labels.index(name)
                 fs = edf.getSampleFrequency(idx)
                 sig = edf.readSignal(idx)
-                signals[name] = {'signal': sig, 'fs': fs}
+                unit = edf.getPhysicalDimension(idx)
+                signals[name] = {'signal': sig, 'fs': fs, 'unit': unit}
     return signals

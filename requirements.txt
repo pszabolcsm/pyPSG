@@ -33,6 +33,7 @@ patsy==0.5.3
 pecg==2.0.5
 pefile==2022.5.30
 Pillow==9.2.0
+pobm==1.0.1
 pooch==1.6.0
 pyEDFlib==0.1.40
 Pygments==2.19.1

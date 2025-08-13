@@ -8,9 +8,12 @@ from scipy.interpolate import interp1d
 
 def comp_AVNN(segment):
 
-    """ This function returns the mean RR interval (AVNN) over a segment of RR time series.
-    :param segment: The input RR intervals time-series.
-    :returns AVNN:  The mean RR interval over the segment.
+    """
+    This function returns the mean RR interval (AVNN) over a segment of RR time series.
+    
+    :param segment: The input RR intervals time-series in seconds.
+    :type segment: 1d-array
+    :return: AVNN:  The mean RR interval over the segment.
     """
     
     segment = segment * 1000
@@ -19,9 +22,12 @@ def comp_AVNN(segment):
 
 def comp_SDNN(segment):
 
-    """ This function returns the standard deviation over the RR intervals (SDNN) found in the input.
+    """
+    This function returns the standard deviation over the RR intervals (SDNN) found in the input.
+    
     :param segment: The input RR intervals time-series.
-    :returns SDNN:  The std. dev. over the RR intervals.
+    :type segment: 1d-array
+    :return: SDNN:  The std. dev. over the RR intervals.
     """
     
     segment = segment * 1000
@@ -30,10 +36,12 @@ def comp_SDNN(segment):
 
 def comp_RMSSD(segment):
 
-    """ This function returns the RMSSD measure over a segment of RR time series.
-        https://www.biopac.com/application/ecg-cardiology/advanced-feature/rmssd-for-hrv-analysis/
+    """
+    This function returns the square root of mean summed squares of RR interval differences.
+        
     :param segment: The input RR intervals time-series.
-    :returns PNN20:  The RMSSD measure over the RR interval time series.
+    :type segment: 1d-array
+    :return: RMSSD:  square root of mean summed squares of NN interval differences.
     """
     
     segment = segment * 1000
@@ -42,9 +50,12 @@ def comp_RMSSD(segment):
 
 def comp_PNN20(segment):
 
-    """ This function returns the percentage of the RR interval differences above .02 over a segment of RR time series.
+    """
+    This function returns the percentage of the RR interval differences above .02 over a segment of RR time series.
+    
     :param segment: The input RR intervals time-series.
-    :returns PNN20:  The percentage of the RR interval differences above .02.
+    :type segment: 1d-array
+    :return PNN20:  The percentage of the RR interval differences above .02.
     """
     
     segment = segment * 1000
@@ -53,9 +64,11 @@ def comp_PNN20(segment):
 
 def comp_PNN50(segment):
 
-    """ This function returns the percentage of the RR interval differences above .05 over a segment of RR time series.
+    """
+    This function returns the percentage of the RR interval differences above .05 over a segment of RR time series.
     :param segment: The input RR intervals time-series.
-    :returns PNN50:  The percentage of the RR interval differences above .05.
+    :type segment: 1d-array
+    :return PNN50:  The percentage of the RR interval differences above .05.
     """
     
     segment = segment * 1000
@@ -63,8 +76,11 @@ def comp_PNN50(segment):
     return 100 * np.sum(np.abs(np.diff(segment)) > 50) / (len(segment) - 1)
 
 def comp_SEM(segment):
-    """ Based on mhrv.hrv.hrv_time
+    """
+    This function returns standard error of the mean NN interval length.
+    
     :param segment: The input RR intervals time-series.
+    :type segment: 1d-array
     :return: SEM: Standard error of the mean NN interval
     """
     
@@ -76,12 +92,12 @@ def comp_SEM(segment):
 
 def comp_poincare(segment):
     """
+    Calculates HRV metrics from a Poincaré plot of the input data.
 
     :param segment: The input RR intervals time-series.
-    :return:
-    sd1: Standard deviation of RR intervals along the axis perpendicular to
-                the line of identity.
-    sd2: Standard deviation of RR intervals along the line of identity.
+    :type segment: 1d-array
+    :return:sd1: Standard deviation of RR intervals along the axis perpendicular to the line of identity.
+            sd2: Standard deviation of RR intervals along the line of identity.
     """
     x_old = segment[:-1]
     y_old = segment[1:]
@@ -97,14 +113,47 @@ def comp_poincare(segment):
 
 
 def comp_SD1(segment):
+    """
+    Calculates the standard deviation of RR intervals along the axis perpendicular to the line of identity.
+    
+    :param segment: The input RR intervals time-series.
+    :type segment: 1d-array
+    :return: SD1: standard deviation of RR intervals along the axis perpendicular to the line of identity
+    """
     return comp_poincare(segment)[0]
 
 
 def comp_SD2(segment):
+    """
+    Calculates the standard deviation of RR intervals along the line of identity..
+    
+    :param segment: The input RR intervals time-series.
+    :type segment: 1d-array
+    :return: SD1: standard deviation of RR intervals along the line of identity
+    """
     return comp_poincare(segment)[1]
 
 
 def comp_DFA(segment, n_min=4, n_max=64, n_incr=2, alpha1_range=(4, 15), alpha2_range=(16, 64)):
+    """
+    Calculates the DFA (detrended fluctuation analysis) of a signal and it's scaling exponents.
+    
+    :param segment: The input RR intervals time-series.
+    :type segment: 1d-array
+    :param n_min: Minimal DFA block-size (default 4)
+    :type n_min: int, optional
+    :param n_max: Maximal DFA block-size (default 64)
+    :type n_min: int, optional
+    :param n_incr: increment value for n (default 2). Can also be less than 1, in which case we interpret it as the ratio of a geometric series on box sizes (n). This should produce box size values identical to the PhysioNet DFA implmentation.
+    :type n_incr: int, optional
+    :param alpha1_range: Range of block size values to use for calculating the alpha_1 scaling exponent. Default: [4, 15].
+    :type alpha1_range: tuple, optional
+    :param alpha2_range: Range of block size values to use for calculating the alpha_2 scaling exponent. Default: [16, 64].
+    :type alpha2_range: tuple, optional
+
+    Return: alpha1: Log-log slope of DFA in the low-scale region, alpha2: Log-log slope of DFA in the high-scale region
+
+    """
     # Calculate zero-based interval time axis
     segment = np.asarray(segment).flatten()
     tnn = np.concatenate(([0], np.cumsum(segment[:-1])))
@@ -166,33 +215,42 @@ def comp_DFA(segment, n_min=4, n_max=64, n_incr=2, alpha1_range=(4, 15), alpha2_
     return alpha1, alpha2, n, fn
 
 def comp_alpha_1(segment):
+    """
+    Calculates the log-log slope of DFA in the low-scale region
+    
+    :param segment: The input RR intervals time-series.
+    :type segment: 1d-array
+    :return: alpha1: log-log slope of DFA in the low-scale region
+
+    """
     return comp_DFA(segment)[0]
 
 def comp_alpha_2(segment):
+    """
+    Calculates the log-log slope of DFA in the low-scale region
+    
+    :param segment: The input RR intervals time-series.
+    :type segment: 1d-array
+    :return: alpha2: log-log slope of DFA in the high-scale region
+
+    """
     return comp_DFA(segment)[1]
 
 def buffer(X, n, p=0, opt=None):
-    '''Mimic MATLAB routine to generate buffer array
+    """Mimic MATLAB routine to generate buffer array
 
     MATLAB docs here: https://se.mathworks.com/help/signal/ref/buffer.html
-
-    Parameters
-    ----------
-    x: ndarray
-        Signal array
-    n: int
-        Number of data segments
-    p: int
-        Number of values to overlap
-    opt: str
-        Initial condition options. default sets the first `p` values to zero,
-        while 'nodelay' begins filling the buffer immediately.
-
-    Returns
-    -------
-    result : (n,n) ndarray
-        Buffer array created from X
-    '''
+    
+    :param x: signal array
+    :type x: ndarray
+    :param n: number of data segments
+    :type n: int
+    :param p: number of values to overlap
+    :type p: int
+    :param opt: Initial condition options. default sets the first `p` values to zero,
+                while 'nodelay' begins filling the buffer immediately.
+    :return: buffer array created from x ((n,n)ndarray)
+    """
 
     if opt not in [None, 'nodelay']:
         raise ValueError('{} not implemented'.format(opt))
@@ -230,6 +288,22 @@ def buffer(X, n, p=0, opt=None):
     return result
 
 def comp_sample_entropy(segment, m, r):
+    """
+    Calculate sample entropy (SampEn) of a signal.
+
+    Sample entropy is a measure of the irregularity of a signal.
+
+    :param segment: The input signal.
+    :type segment: array_like
+    :param m: Template length in samples.
+    :type m: int
+    :param r: Threshold for matching sample values.
+    :type r: float
+
+    :returns: The sample entropy value of the input signal.
+    :rtype: float
+
+    """
     N = len(segment)
     
     # Validations
@@ -296,6 +370,36 @@ def comp_sample_entropy(segment, m, r):
 
 
 def comp_MSE(segment, normalize_std = True, mse_max_scale = 20, sampen_m = 2, sampen_r = 0.2, mse_metrics = False):
+    """
+    Calculates the Multiscale Entropy (MSE) of a signal.
+
+    Multiscale Entropy is a measure of a signal's complexity. This function computes
+    the Sample Entropy of the signal at various scales from 1 to `mse_max_scale`.
+    At each scale, the signal is downsampled by averaging `scale` samples, and
+    Sample Entropy is calculated for the resulting coarse-grained signal.
+
+    :param sig: Signal to calculate MSE for.
+    :type sig: array_like
+    :param mse_max_scale: Maximal scale to calculate up to. Default is 20.
+    :type mse_max_scale: int, optional
+    :param sampen_r: The 'r' parameter for Sample Entropy
+        (maximum distance between matching points). Default is 0.2.
+    :type sampen_r: float, optional
+    :param sampen_m: The 'm' parameter for Sample Entropy
+        (template length). Default is 2.
+    :type sampen_m: int, optional
+    :param normalize_std: Whether to normalize the signal to std=1 before entropy calculation.
+        This affects the meaning of `r`.
+    :type normalize_std: bool, optional
+    :param plot: Whether to generate a plot of the results. Defaults to True if no output is returned.
+    :type plot: bool, optional
+
+    :returns:
+
+    - **mse_result** (*ndarray*): The Sample Entropy value at each scale.
+    - **scale_axis** (*ndarray*): The scale values corresponding to each MSE value.
+    """
+
     # Normalize input
     N = len(segment)
     sig_normalized = segment - np.mean(segment)
@@ -334,6 +438,21 @@ def comp_MSE(segment, normalize_std = True, mse_max_scale = 20, sampen_m = 2, sa
 ## Fragmentation metrics
 
 def fragmentation_metrics(segment):
+    """
+    Compute fragmentation-related features from an NN interval segment.
+
+    Detects inflection points based on changes in the sign of successive differences,
+    and computes the segment lengths between them.
+
+    :param segment: 1D array of NN intervals (e.g., RR intervals).
+    :type segment: ndarray
+
+    :returns:
+        - **N** (*int*): Total number of NN intervals.
+        - **ip** (*ndarray*): Binary array indicating inflection points (1 where inflection occurs).
+        - **segment_lengths** (*ndarray*): Lengths of segments between inflection points.
+    :rtype: tuple
+    """
     N = len(segment)
     nni = segment.reshape(1, -1)  # reshape input into a row vector
     dnni = np.diff(nni)  # delta NNi: differences of conseccutive NN intervals
@@ -349,6 +468,18 @@ def fragmentation_metrics(segment):
     return N, ip, segment_lengths
 
 def comp_PIP(segment):
+    """
+    Compute the Percentage of Inflection Points (PIP) in an NN interval segment.
+
+    An inflection point is defined where the delta NN interval changes sign.
+    Fake points are added at the beginning and end to enclose edge segments.
+
+    :param segment: 1D array of NN intervals.
+    :type segment: ndarray
+
+    :returns: PIP – Percentage of inflection points in the segment.
+    :rtype: float
+    """
 
     N, ip, segment_lengths = fragmentation_metrics(segment)
     #Number of inflection points (where delta NNi changes sign). Subtract 2 for the fake points we added.
@@ -358,12 +489,35 @@ def comp_PIP(segment):
     return PIP
 
 def comp_IALS(segment):
+    """
+    Compute the Inverse Average Length of Segments (IALS) in an NN interval segment.
 
+    The segments are defined between inflection points.
+
+    :param segment: 1D array of NN intervals.
+    :type segment: ndarray
+
+    :returns: IALS – Inverse of the mean segment length.
+    :rtype: float
+    """
+    
     N, ip, segment_lengths = fragmentation_metrics(segment)
     IALS = 1 / np.mean(segment_lengths)  # Inverse Average Length of Segments (IALS)
     return IALS
 
 def comp_PSS(segment):
+    """
+    Compute the Percentage of Short Segments (PSS) in an NN interval segment.
+
+    Short segments are defined as segments with fewer than 3 NN intervals.
+
+    :param segment: 1D array of NN intervals.
+    :type segment: ndarray
+
+    :returns: PSS – Percentage of NN intervals that belong to short segments.
+    :rtype: float
+    """
+    
     N, ip, segment_lengths = fragmentation_metrics(segment)
     short_segment_lengths = segment_lengths[segment_lengths < 3]
     nss = np.sum(short_segment_lengths)
@@ -373,6 +527,19 @@ def comp_PSS(segment):
 
 
 def comp_PAS(segment):
+    """
+    Compute the Percentage of Alternating Segments (PAS) in an NN interval segment.
+
+    Alternating segments are those where the segment length is > 3. This metric
+    calculates the percentage of RR intervals that fall into such alternating segments.
+
+    :param segment: 1D array of RR intervals.
+    :type segment: ndarray
+
+    :returns: PAS – Percentage of NN intervals in alternating segments of length > 3.
+    :rtype: float
+    """
+    
     N, ip, segment_lengths = fragmentation_metrics(segment)
     alternation_segment_boundaries = np.asarray([1] + list((segment_lengths > 1).astype(int)) + [1])
     alternation_segment_lengths = np.diff(np.where(alternation_segment_boundaries))[0]
@@ -385,6 +552,19 @@ def comp_PAS(segment):
 ## Frequence-domain metrics
 
 def freqband_power(pxx, f_axis, f_band):
+    """
+    Calculates the power in a frequency band.
+    
+    :param pxx: Power spectral density values.
+    :type pxx: ndarray
+    :param f_axis: Frequency axis corresponding to `pxx`.
+    :type f_axis: ndarray
+    :param f_band: Frequency band [f_low, f_high] over which to integrate the power.
+    :type f_band: list or tuple or ndarray, length 2
+    :returns: Power within the specified frequency band.
+    :rtype: float
+
+    """
     # Validate input
     if pxx.ndim != 1 or f_axis.ndim != 1:
         raise ValueError('pxx and f_axis must be 1D vectors')
@@ -416,6 +596,39 @@ def freqband_power(pxx, f_axis, f_band):
     return power
 
 def comp_freq(segment, vlf_band = [0.003, 0.04], lf_band = [0.04,  0.15], hf_band = [0.15,  0.4], resample_factor = 2.25, freq_osf=4, welch_overlap = 50, window_minutes = 5):
+    """
+    Compute frequency-domain HRV metrics using resampled RR interval data and Welch's method.
+    This function estimates the PSD (power spectral density) of a given nn-interval sequence,
+    and calculates the power in various frequency bands.
+    
+    :param segment: Sequence of NN intervals in seconds.
+    :type segment: ndarray
+    :param vlf_band: Frequency band for Very Low Frequency (VLF) power, default is [0.003, 0.04] Hz.
+    :type vlf_band: list, optional
+    :param lf_band: Frequency band for Low Frequency (LF) power, default is [0.04, 0.15] Hz.
+    :type lf_band: list, optional
+    :param hf_band: Frequency band for High Frequency (HF) power, default is [0.15, 0.4] Hz.
+    :type hf_band: list, optional
+    :param resample_factor: Multiplier for determining uniform resampling frequency (fs = resample_factor × max freq). Default is 2.25.
+    :type resample_factor: float, optional
+    :param freq_osf: Frequency oversampling factor to increase frequency resolution. Default is 4.
+    :type freq_osf: int, optional
+    :param welch_overlap: Overlap percentage between Welch windows (0–100). Default is 50.
+    :type welch_overlap: int, optional
+    :param window_minutes: Length of each Welch window in minutes. Default is 5.
+    :type window_minutes: int, optional
+    :returns:
+        - **total_power** (*float*): Total spectral power across full frequency range.
+        - **vlf_power** (*float*): Absolute power in VLF band.
+        - **lf_power** (*float*): Absolute power in LF band.
+        - **hf_power** (*float*): Absolute power in HF band.
+        - **vlf_norm** (*float*): Normalized VLF power (% of total).
+        - **lf_norm** (*float*): Normalized LF power (% of total).
+        - **hf_norm** (*float*): Normalized HF power (% of total).
+        - **lf_hf_ratio** (*float*): LF/HF power ratio.
+    :rtype: tuple
+
+    """
     # Calculate zero-based interval time axis
     segment = np.asarray(segment).flatten()
     tnn = np.concatenate(([0], np.cumsum(segment[:-1])))
@@ -500,6 +713,16 @@ def comp_freq(segment, vlf_band = [0.003, 0.04], lf_band = [0.04,  0.15], hf_ban
 
 
 def get_all_metrics(rr_intervals):
+    """
+    Calculate all metrics for given intervals.
+    
+    :param rr_intervals: The input RR intervals time-series in seconds.
+    :type rr_intervals: 1d-array
+    
+    :return: A dictionary with all metrics for given intervals.
+
+
+    """
     rr_intervals = np.asarray(rr_intervals, dtype=np.float64).flatten()
     
     AVNN = comp_AVNN(rr_intervals)

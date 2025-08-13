@@ -19,7 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="pyPSG package" href="pyPSG.html" /> 
+    <link rel="next" title="Biomarkers" href="biomarkers.html" />
+    <link rel="prev" title="pyPSG" href="moduls.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,22 +45,29 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="moduls.html">pyPSG</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="pyPSG.html">pyPSG package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Data handling</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pypsg-io-data-handling">pyPSG.IO.data_handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.IO.data_handling">pyPSG.IO.data_handling</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyPSG.IO.data_handling.save_data"><code class="docutils literal notranslate"><span class="pre">save_data()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#pypsg-io-edf-cut">pyPSG.IO.edf_cut</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.IO.edf_cut">pyPSG.IO.edf_cut</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyPSG.IO.edf_cut.cut_edf"><code class="docutils literal notranslate"><span class="pre">cut_edf()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#pypsg-io-edf-read">pyPSG.IO.edf_read</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.IO.edf_read">pyPSG.IO.edf_read</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyPSG.IO.edf_read.read_edf_signals"><code class="docutils literal notranslate"><span class="pre">read_edf_signals()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.IO.plot">pyPSG.IO.plot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.IO.plot.plot_raw_data"><code class="docutils literal notranslate"><span class="pre">plot_raw_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.IO.plot.plot_variability"><code class="docutils literal notranslate"><span class="pre">plot_variability()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="biomarkers.html">Biomarkers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPSG.html">pyPSG other modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hrv_bm.html">Heart Rate variability biomarkers</a></li>
 </ul>
 </li>
 </ul>
@@ -91,9 +99,10 @@
              
   <section id="data-handling">
 <h1>Data handling<a class="headerlink" href="#data-handling" title="Link to this heading"></a></h1>
-<section id="pypsg-io-data-handling">
-<h2>pyPSG.IO.data_handling<a class="headerlink" href="#pypsg-io-data-handling" title="Link to this heading"></a></h2>
-<dl class="py function" id="module-pyPSG.IO.data_handling">
+<p>These moduls are responsible for data handling, including reading, saving, cutting and plotting.</p>
+<section id="module-pyPSG.IO.data_handling">
+<span id="pypsg-io-data-handling"></span><h2>pyPSG.IO.data_handling<a class="headerlink" href="#module-pyPSG.IO.data_handling" title="Link to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.IO.data_handling.save_data">
 <span class="sig-prename descclassname"><span class="pre">pyPSG.IO.data_handling.</span></span><span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.data_handling.save_data" title="Link to this definition"></a></dt>
 <dd><p>Save a dictionary of data to a MATLAB .mat file.</p>
@@ -111,9 +120,9 @@
 </dd></dl>
 
 </section>
-<section id="pypsg-io-edf-cut">
-<h2>pyPSG.IO.edf_cut<a class="headerlink" href="#pypsg-io-edf-cut" title="Link to this heading"></a></h2>
-<dl class="py function" id="module-pyPSG.IO.edf_cut">
+<section id="module-pyPSG.IO.edf_cut">
+<span id="pypsg-io-edf-cut"></span><h2>pyPSG.IO.edf_cut<a class="headerlink" href="#module-pyPSG.IO.edf_cut" title="Link to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.IO.edf_cut.cut_edf">
 <span class="sig-prename descclassname"><span class="pre">pyPSG.IO.edf_cut.</span></span><span class="sig-name descname"><span class="pre">cut_edf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edf_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.edf_cut.cut_edf" title="Link to this definition"></a></dt>
 <dd><p>Extract a segment from an EDF file and save it as a new EDF file. Time is specified in sec.</p>
@@ -133,9 +142,9 @@
 </dd></dl>
 
 </section>
-<section id="pypsg-io-edf-read">
-<h2>pyPSG.IO.edf_read<a class="headerlink" href="#pypsg-io-edf-read" title="Link to this heading"></a></h2>
-<dl class="py function" id="module-pyPSG.IO.edf_read">
+<section id="module-pyPSG.IO.edf_read">
+<span id="pypsg-io-edf-read"></span><h2>pyPSG.IO.edf_read<a class="headerlink" href="#module-pyPSG.IO.edf_read" title="Link to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.IO.edf_read.read_edf_signals">
 <span class="sig-prename descclassname"><span class="pre">pyPSG.IO.edf_read.</span></span><span class="sig-name descname"><span class="pre">read_edf_signals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edf_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_names</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.edf_read.read_edf_signals" title="Link to this definition"></a></dt>
 <dd><p>Load raw data from EDF file.</p>
@@ -155,13 +164,63 @@
 </dd></dl>
 
 </section>
+<section id="module-pyPSG.IO.plot">
+<span id="pypsg-io-plot"></span><h2>pyPSG.IO.plot<a class="headerlink" href="#module-pyPSG.IO.plot" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.IO.plot.plot_raw_data">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.IO.plot.</span></span><span class="sig-name descname"><span class="pre">plot_raw_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.plot.plot_raw_data" title="Link to this definition"></a></dt>
+<dd><p>Plots raw physiological signals for the first 60 seconds of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>signals</strong> (<em>dict</em>) – Dictionary containing signal data for each channel.
+Keys are channel names, values are dictionaries with keys:
+- “signal”: array-like, the raw signal values
+- “fs”: float, sampling frequency in Hz
+- “unit”: str, unit of the signal (e.g., ‘mV’, ‘%’, ‘au’)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None. Displays a matplotlib figure with one subplot per signal channel.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.IO.plot.plot_variability">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.IO.plot.</span></span><span class="sig-name descname"><span class="pre">plot_variability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ppg_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ppg_fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ecg_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ecg_fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matlab_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.plot.plot_variability" title="Link to this definition"></a></dt>
+<dd><p>Computes and plots breath rate variability (BRV) from PPG and heart rate variability (HRV) from ECG.</p>
+<p>BRV is calculated from detected PPG peaks, HRV from detected ECG peaks.
+Both are computed in 60-second sliding windows, and plotted as BPM over time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ppg_signal</strong> (<em>array-like</em>) – Raw PPG signal.</p></li>
+<li><p><strong>ppg_fs</strong> (<em>float</em>) – Sampling frequency of the PPG signal in Hz.</p></li>
+<li><p><strong>ecg_signal</strong> (<em>array-like</em>) – Raw ECG signal.</p></li>
+<li><p><strong>ecg_fs</strong> (<em>float</em>) – Sampling frequency of the ECG signal in Hz.</p></li>
+<li><p><strong>matlab_path</strong> (<em>str</em>) – Path to the MATLAB executable (required for ECG peak detection).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None. Displays a matplotlib figure comparing BRV and HRV over time.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="pyPSG.html" class="btn btn-neutral float-left" title="pyPSG package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="moduls.html" class="btn btn-neutral float-left" title="pyPSG" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="biomarkers.html" class="btn btn-neutral float-right" title="Biomarkers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

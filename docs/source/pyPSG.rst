@@ -1,10 +1,12 @@
 pyPSG other modules
-=============
+====================
 
-pyPSG.all_BMs
--------------
+This section covers additional pyPSG modules, including example function and utility tools for signal processing
 
-.. automodule:: pyPSG.all_BMs
+pyPSG.pypsg_example
+--------------------
+
+.. automodule:: pyPSG.pypsg_example
    :members:
    :undoc-members:
    :show-inheritance:

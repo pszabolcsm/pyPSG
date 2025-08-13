@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heart Rate variability biomarkers &mdash; pyPSG 1.0.0. documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=58f5e731"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pyPSG other modules" href="pyPSG.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyPSG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="moduls.html">pyPSG</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="IO.html">Data handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="biomarkers.html">Biomarkers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyPSG.html">pyPSG other modules</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Heart Rate variability biomarkers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.biomarkers.hrv_bms">pyPSG.biomarkers.hrv_bms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.buffer"><code class="docutils literal notranslate"><span class="pre">buffer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_AVNN"><code class="docutils literal notranslate"><span class="pre">comp_AVNN()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_DFA"><code class="docutils literal notranslate"><span class="pre">comp_DFA()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_IALS"><code class="docutils literal notranslate"><span class="pre">comp_IALS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_MSE"><code class="docutils literal notranslate"><span class="pre">comp_MSE()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_PAS"><code class="docutils literal notranslate"><span class="pre">comp_PAS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_PIP"><code class="docutils literal notranslate"><span class="pre">comp_PIP()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_PNN20"><code class="docutils literal notranslate"><span class="pre">comp_PNN20()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_PNN50"><code class="docutils literal notranslate"><span class="pre">comp_PNN50()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_PSS"><code class="docutils literal notranslate"><span class="pre">comp_PSS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_RMSSD"><code class="docutils literal notranslate"><span class="pre">comp_RMSSD()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_SD1"><code class="docutils literal notranslate"><span class="pre">comp_SD1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_SD2"><code class="docutils literal notranslate"><span class="pre">comp_SD2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_SDNN"><code class="docutils literal notranslate"><span class="pre">comp_SDNN()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_SEM"><code class="docutils literal notranslate"><span class="pre">comp_SEM()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_alpha_1"><code class="docutils literal notranslate"><span class="pre">comp_alpha_1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_alpha_2"><code class="docutils literal notranslate"><span class="pre">comp_alpha_2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_freq"><code class="docutils literal notranslate"><span class="pre">comp_freq()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_poincare"><code class="docutils literal notranslate"><span class="pre">comp_poincare()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.comp_sample_entropy"><code class="docutils literal notranslate"><span class="pre">comp_sample_entropy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.fragmentation_metrics"><code class="docutils literal notranslate"><span class="pre">fragmentation_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.freqband_power"><code class="docutils literal notranslate"><span class="pre">freqband_power()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.biomarkers.hrv_bms.get_all_metrics"><code class="docutils literal notranslate"><span class="pre">get_all_metrics()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyPSG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="moduls.html">pyPSG</a></li>
+      <li class="breadcrumb-item active">Heart Rate variability biomarkers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/hrv_bm.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="heart-rate-variability-biomarkers">
+<h1>Heart Rate variability biomarkers<a class="headerlink" href="#heart-rate-variability-biomarkers" title="Link to this heading"></a></h1>
+<p>This module computes HRV biomarkers based on the mhrv MATLAB package.</p>
+<section id="module-pyPSG.biomarkers.hrv_bms">
+<span id="pypsg-biomarkers-hrv-bms"></span><h2>pyPSG.biomarkers.hrv_bms<a class="headerlink" href="#module-pyPSG.biomarkers.hrv_bms" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.buffer">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.buffer" title="Link to this definition"></a></dt>
+<dd><p>Mimic MATLAB routine to generate buffer array</p>
+<p>MATLAB docs here: <a class="reference external" href="https://se.mathworks.com/help/signal/ref/buffer.html">https://se.mathworks.com/help/signal/ref/buffer.html</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>ndarray</em>) – signal array</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of data segments</p></li>
+<li><p><strong>p</strong> (<em>int</em>) – number of values to overlap</p></li>
+<li><p><strong>opt</strong> – Initial condition options. default sets the first <cite>p</cite> values to zero,
+while ‘nodelay’ begins filling the buffer immediately.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>buffer array created from x ((n,n)ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_AVNN">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_AVNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_AVNN" title="Link to this definition"></a></dt>
+<dd><p>This function returns the mean RR interval (AVNN) over a segment of RR time series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series in seconds.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>AVNN:  The mean RR interval over the segment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_DFA">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_DFA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_incr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha1_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(4,</span> <span class="pre">15)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha2_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(16,</span> <span class="pre">64)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_DFA" title="Link to this definition"></a></dt>
+<dd><p>Calculates the DFA (detrended fluctuation analysis) of a signal and it’s scaling exponents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p></li>
+<li><p><strong>n_min</strong> (<em>int</em><em>, </em><em>optional</em>) – Minimal DFA block-size (default 4)</p></li>
+<li><p><strong>n_max</strong> – Maximal DFA block-size (default 64)</p></li>
+<li><p><strong>n_incr</strong> (<em>int</em><em>, </em><em>optional</em>) – increment value for n (default 2). Can also be less than 1, in which case we interpret it as the ratio of a geometric series on box sizes (n). This should produce box size values identical to the PhysioNet DFA implmentation.</p></li>
+<li><p><strong>alpha1_range</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Range of block size values to use for calculating the alpha_1 scaling exponent. Default: [4, 15].</p></li>
+<li><p><strong>alpha2_range</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Range of block size values to use for calculating the alpha_2 scaling exponent. Default: [16, 64].</p></li>
+</ul>
+</dd>
+</dl>
+<p>Return: alpha1: Log-log slope of DFA in the low-scale region, alpha2: Log-log slope of DFA in the high-scale region</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_IALS">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_IALS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_IALS" title="Link to this definition"></a></dt>
+<dd><p>Compute the Inverse Average Length of Segments (IALS) in an NN interval segment.</p>
+<p>The segments are defined between inflection points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>ndarray</em>) – 1D array of NN intervals.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>IALS – Inverse of the mean segment length.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_MSE">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_MSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mse_max_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampen_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampen_r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mse_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_MSE" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Multiscale Entropy (MSE) of a signal.</p>
+<p>Multiscale Entropy is a measure of a signal’s complexity. This function computes
+the Sample Entropy of the signal at various scales from 1 to <cite>mse_max_scale</cite>.
+At each scale, the signal is downsampled by averaging <cite>scale</cite> samples, and
+Sample Entropy is calculated for the resulting coarse-grained signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sig</strong> (<em>array_like</em>) – Signal to calculate MSE for.</p></li>
+<li><p><strong>mse_max_scale</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximal scale to calculate up to. Default is 20.</p></li>
+<li><p><strong>sampen_r</strong> (<em>float</em><em>, </em><em>optional</em>) – The ‘r’ parameter for Sample Entropy
+(maximum distance between matching points). Default is 0.2.</p></li>
+<li><p><strong>sampen_m</strong> (<em>int</em><em>, </em><em>optional</em>) – The ‘m’ parameter for Sample Entropy
+(template length). Default is 2.</p></li>
+<li><p><strong>normalize_std</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the signal to std=1 before entropy calculation.
+This affects the meaning of <cite>r</cite>.</p></li>
+<li><p><strong>plot</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to generate a plot of the results. Defaults to True if no output is returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p><strong>mse_result</strong> (<em>ndarray</em>): The Sample Entropy value at each scale.</p></li>
+<li><p><strong>scale_axis</strong> (<em>ndarray</em>): The scale values corresponding to each MSE value.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_PAS">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_PAS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_PAS" title="Link to this definition"></a></dt>
+<dd><p>Compute the Percentage of Alternating Segments (PAS) in an NN interval segment.</p>
+<p>Alternating segments are those where the segment length is &gt; 3. This metric
+calculates the percentage of RR intervals that fall into such alternating segments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>ndarray</em>) – 1D array of RR intervals.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PAS – Percentage of NN intervals in alternating segments of length &gt; 3.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_PIP">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_PIP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_PIP" title="Link to this definition"></a></dt>
+<dd><p>Compute the Percentage of Inflection Points (PIP) in an NN interval segment.</p>
+<p>An inflection point is defined where the delta NN interval changes sign.
+Fake points are added at the beginning and end to enclose edge segments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>ndarray</em>) – 1D array of NN intervals.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PIP – Percentage of inflection points in the segment.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_PNN20">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_PNN20</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_PNN20" title="Link to this definition"></a></dt>
+<dd><p>This function returns the percentage of the RR interval differences above .02 over a segment of RR time series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p>
+</dd>
+<dt class="field-even">Return PNN20<span class="colon">:</span></dt>
+<dd class="field-even"><p>The percentage of the RR interval differences above .02.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_PNN50">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_PNN50</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_PNN50" title="Link to this definition"></a></dt>
+<dd><p>This function returns the percentage of the RR interval differences above .05 over a segment of RR time series.
+:param segment: The input RR intervals time-series.
+:type segment: 1d-array
+:return PNN50:  The percentage of the RR interval differences above .05.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_PSS">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_PSS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_PSS" title="Link to this definition"></a></dt>
+<dd><p>Compute the Percentage of Short Segments (PSS) in an NN interval segment.</p>
+<p>Short segments are defined as segments with fewer than 3 NN intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>ndarray</em>) – 1D array of NN intervals.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PSS – Percentage of NN intervals that belong to short segments.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_RMSSD">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_RMSSD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_RMSSD" title="Link to this definition"></a></dt>
+<dd><p>This function returns the square root of mean summed squares of RR interval differences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>RMSSD:  square root of mean summed squares of NN interval differences.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_SD1">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_SD1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_SD1" title="Link to this definition"></a></dt>
+<dd><p>Calculates the standard deviation of RR intervals along the axis perpendicular to the line of identity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>SD1: standard deviation of RR intervals along the axis perpendicular to the line of identity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_SD2">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_SD2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_SD2" title="Link to this definition"></a></dt>
+<dd><p>Calculates the standard deviation of RR intervals along the line of identity..</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>SD1: standard deviation of RR intervals along the line of identity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_SDNN">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_SDNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_SDNN" title="Link to this definition"></a></dt>
+<dd><p>This function returns the standard deviation over the RR intervals (SDNN) found in the input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>SDNN:  The std. dev. over the RR intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_SEM">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_SEM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_SEM" title="Link to this definition"></a></dt>
+<dd><p>This function returns standard error of the mean NN interval length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>SEM: Standard error of the mean NN interval</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_alpha_1">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_alpha_1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_alpha_1" title="Link to this definition"></a></dt>
+<dd><p>Calculates the log-log slope of DFA in the low-scale region</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>alpha1: log-log slope of DFA in the low-scale region</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_alpha_2">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_alpha_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_alpha_2" title="Link to this definition"></a></dt>
+<dd><p>Calculates the log-log slope of DFA in the low-scale region</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>alpha2: log-log slope of DFA in the high-scale region</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_freq">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_freq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vlf_band</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.003,</span> <span class="pre">0.04]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lf_band</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.04,</span> <span class="pre">0.15]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hf_band</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.15,</span> <span class="pre">0.4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq_osf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">welch_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_minutes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_freq" title="Link to this definition"></a></dt>
+<dd><p>Compute frequency-domain HRV metrics using resampled RR interval data and Welch’s method.
+This function estimates the PSD (power spectral density) of a given nn-interval sequence,
+and calculates the power in various frequency bands.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment</strong> (<em>ndarray</em>) – Sequence of NN intervals in seconds.</p></li>
+<li><p><strong>vlf_band</strong> (<em>list</em><em>, </em><em>optional</em>) – Frequency band for Very Low Frequency (VLF) power, default is [0.003, 0.04] Hz.</p></li>
+<li><p><strong>lf_band</strong> (<em>list</em><em>, </em><em>optional</em>) – Frequency band for Low Frequency (LF) power, default is [0.04, 0.15] Hz.</p></li>
+<li><p><strong>hf_band</strong> (<em>list</em><em>, </em><em>optional</em>) – Frequency band for High Frequency (HF) power, default is [0.15, 0.4] Hz.</p></li>
+<li><p><strong>resample_factor</strong> (<em>float</em><em>, </em><em>optional</em>) – Multiplier for determining uniform resampling frequency (fs = resample_factor × max freq). Default is 2.25.</p></li>
+<li><p><strong>freq_osf</strong> (<em>int</em><em>, </em><em>optional</em>) – Frequency oversampling factor to increase frequency resolution. Default is 4.</p></li>
+<li><p><strong>welch_overlap</strong> (<em>int</em><em>, </em><em>optional</em>) – Overlap percentage between Welch windows (0–100). Default is 50.</p></li>
+<li><p><strong>window_minutes</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of each Welch window in minutes. Default is 5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>total_power</strong> (<em>float</em>): Total spectral power across full frequency range.</p></li>
+<li><p><strong>vlf_power</strong> (<em>float</em>): Absolute power in VLF band.</p></li>
+<li><p><strong>lf_power</strong> (<em>float</em>): Absolute power in LF band.</p></li>
+<li><p><strong>hf_power</strong> (<em>float</em>): Absolute power in HF band.</p></li>
+<li><p><strong>vlf_norm</strong> (<em>float</em>): Normalized VLF power (% of total).</p></li>
+<li><p><strong>lf_norm</strong> (<em>float</em>): Normalized LF power (% of total).</p></li>
+<li><p><strong>hf_norm</strong> (<em>float</em>): Normalized HF power (% of total).</p></li>
+<li><p><strong>lf_hf_ratio</strong> (<em>float</em>): LF/HF power ratio.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_poincare">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_poincare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_poincare" title="Link to this definition"></a></dt>
+<dd><p>Calculates HRV metrics from a Poincaré plot of the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>1d-array</em>) – The input RR intervals time-series.</p>
+</dd>
+<dt class="field-even">Return:sd1<span class="colon">:</span></dt>
+<dd class="field-even"><p>Standard deviation of RR intervals along the axis perpendicular to the line of identity.
+sd2: Standard deviation of RR intervals along the line of identity.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_sample_entropy">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_sample_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_sample_entropy" title="Link to this definition"></a></dt>
+<dd><p>Calculate sample entropy (SampEn) of a signal.</p>
+<p>Sample entropy is a measure of the irregularity of a signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment</strong> (<em>array_like</em>) – The input signal.</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – Template length in samples.</p></li>
+<li><p><strong>r</strong> (<em>float</em>) – Threshold for matching sample values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The sample entropy value of the input signal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.fragmentation_metrics">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">fragmentation_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.fragmentation_metrics" title="Link to this definition"></a></dt>
+<dd><p>Compute fragmentation-related features from an NN interval segment.</p>
+<p>Detects inflection points based on changes in the sign of successive differences,
+and computes the segment lengths between them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> (<em>ndarray</em>) – 1D array of NN intervals (e.g., RR intervals).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>N</strong> (<em>int</em>): Total number of NN intervals.</p></li>
+<li><p><strong>ip</strong> (<em>ndarray</em>): Binary array indicating inflection points (1 where inflection occurs).</p></li>
+<li><p><strong>segment_lengths</strong> (<em>ndarray</em>): Lengths of segments between inflection points.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.freqband_power">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">freqband_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pxx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_band</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.freqband_power" title="Link to this definition"></a></dt>
+<dd><p>Calculates the power in a frequency band.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pxx</strong> (<em>ndarray</em>) – Power spectral density values.</p></li>
+<li><p><strong>f_axis</strong> (<em>ndarray</em>) – Frequency axis corresponding to <cite>pxx</cite>.</p></li>
+<li><p><strong>f_band</strong> (<em>list</em><em> or </em><em>tuple</em><em> or </em><em>ndarray</em><em>, </em><em>length 2</em>) – Frequency band [f_low, f_high] over which to integrate the power.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Power within the specified frequency band.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.get_all_metrics">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">get_all_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr_intervals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.get_all_metrics" title="Link to this definition"></a></dt>
+<dd><p>Calculate all metrics for given intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rr_intervals</strong> (<em>1d-array</em>) – The input RR intervals time-series in seconds.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with all metrics for given intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyPSG.html" class="btn btn-neutral float-left" title="pyPSG other modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Szabolcs M. Péter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

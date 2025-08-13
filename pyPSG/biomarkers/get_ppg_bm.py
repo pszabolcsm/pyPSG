@@ -9,7 +9,37 @@ import pyPPG.biomarkers as BM
 from pyPSG.biomarkers.get_hrv_bm import get_hrv_biomarkers
 
 def get_ppg_biomarkers(signal, fs, filtering=True, fL=0.5000001, fH=12, order=4,
-                       sm_wins={'ppg': 50, 'vpg': 10, 'apg': 10, 'jpg': 10}, correction=pd.DataFrame(), get_brv = True):
+                       sm_wins={'ppg': 50, 'vpg': 10, 'apg': 10, 'jpg': 10}, correction=pd.DataFrame(), get_brv = True, get_peaks_only = False):
+    '''
+        This function extract PPG-based biomarkers and optionally beat rate variability (BRV) from a PPG signal.
+
+        :param signal: The raw PPG signal
+        :type signal: array-like
+        :param fs: The sampling frequency of the PPG signal
+        :type fs: float
+        :param get_brv: Whether to compute beat rate variability (BRV) biomarkers
+        :type get_brv: bool, optional
+        :param filtering: a bool for filtering
+        :type filtering: bool
+        :param fL: Lower cutoff frequency (Hz)
+        :type fL: float
+        :param fH: Upper cutoff frequency (Hz)
+        :type fH: float
+        :param order: Filter order
+        :type order: int
+        :param sm_wins: dictionary of smoothing windows in millisecond:
+            - ppg: window for PPG signal
+            - vpg: window for PPG' signal
+            - apg: window for PPG" signal
+            - jpg: window for PPG'" signal
+        :type sm_wins: dict
+        :param correction: DataFrame where the key is the name of the fiducial points and the value is bool
+        :type correction: DataFrame
+        :return: If `get_brv` is True, returns a dict with 'ppg' and 'brv' keys containing biomarkers.
+                 Otherwise, returns only the PPG biomarkers object.
+        '''
+    
+    # Wrap raw signal and metadata into a DotMap structure
     ppg_signal = DotMap()
     ppg_signal.v = signal
     ppg_signal.fs = fs
@@ -44,6 +74,11 @@ def get_ppg_biomarkers(signal, fs, filtering=True, fL=0.5000001, fH=12, order=4,
     fiducials = fpex.get_fiducials(s=s)
     # print("Fiducial points:\n", fiducials + s.start_sig) #TODO: szepen megcsinalani mint Marci
     
+    #Return peaks if get_peaks_only is true
+    if get_peaks_only:
+        peaks = fiducials.sp
+        return peaks
+    
     # Create a fiducials class
     fp = Fiducials(fp=fiducials)
     
@@ -62,6 +97,7 @@ def get_ppg_biomarkers(signal, fs, filtering=True, fL=0.5000001, fH=12, order=4,
     pyppg_bm = Biomarkers(bm_defs=bm_defs, bm_vals=bm_vals, bm_stats=bm_stats)
     
     if get_brv:
+        # Compute beat rate variability biomarkers (BRV)
         peaks = fiducials.sp
         brv_bm = get_hrv_biomarkers(peaks, fs)
         ppg_bm = {

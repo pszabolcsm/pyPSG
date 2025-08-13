@@ -24,13 +24,22 @@ def cut_edf(edf_path, output_path, start_time, duration): #Time is specified in 
     with pyedflib.EdfReader(edf_path) as edf:
       num_signals = edf.signals_in_file  # Get the number of signals in the file
 
-      # Get signal labels and frequences
+      # Get signal labels,unit and frequences
       signal_labels = edf.getSignalLabels()
-      sig_freqs = [edf.getSampleFrequency(i) for i in range(num_signals)]
 
-      # Get signals and slice them
+      # Initialize signals, freqences, measurment units
       all_sig=[]
+      sig_dims = []
+      sig_freqs = []
+      
       for i in range(num_signals):
+        # Get signal frequence and unit
+        freq = edf.getSampleFrequency(i)
+        sig_freqs.append(freq)
+        dim = edf.getPhysicalDimension(i)
+        sig_dims.append(dim)
+        
+        # Get signals and slice them
         start_sample =int(start_time * sig_freqs[i])
         num_samples = int(duration * sig_freqs[i])
         signal = edf.readSignal(i, digital=False)
@@ -56,7 +65,7 @@ def cut_edf(edf_path, output_path, start_time, duration): #Time is specified in 
 
           channel_info.append({
                 "label": signal_labels[i],
-                "dimension": "uV",
+                "dimension": sig_dims[i],
                 "sample_frequency": sig_freqs[i],
                 "physical_min": pmin,
                 "physical_max": pmax,
@@ -78,4 +87,4 @@ def cut_edf(edf_path, output_path, start_time, duration): #Time is specified in 
 
 if __name__ == "__main__":
 
-  cut_edf("old_stuff/mesa-sleep-0006.edf", "20p.edf", 12000, 1200)
+  cut_edf("mesa-sleep-0006.edf", "../../sample2.edf", 12000, 1200)
