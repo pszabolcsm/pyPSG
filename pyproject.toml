@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pyPSG"
-version = "1.0.0"
+name = "pyPSG-toolbox"
+version = "1.0.9"
 authors = [
   { name="Szabolcs M. Péter"},
   { name="Marton A. Goda, PhD"},
@@ -15,10 +15,10 @@ maintainers = [
 description = "Python toolbox for PPG, ECG, SPO2 and HRV analysis"
 readme = {file = "README.md", content-type = "text/markdown"}
 license = "GPL-3.0-only"
-license-files = ["LICENSE"]
-requires-python = ">=3.10"
+license-files = ["LICENSE.txt"]
+requires-python = ">=3.10,<3.11"
 classifiers = [
-    "Development Status :: 4 - Implementation",
+    "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3.10",
     "Operating System :: OS Independent",
 ]

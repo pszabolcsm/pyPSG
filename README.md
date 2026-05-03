@@ -20,8 +20,50 @@ Biomarkers are extracted separately from all three signal types, and the results
 
 ![](docs/figs/pipeline.png)
 
-## Installation
-
 ## Requirements
 
+### Python requirements:
+
+
+Python == 3.10
+
+pecg == 2.0.5
+
+pyPPG == 1.0.73
+
+scipy == 1.9.1
+
+numpy == 1.23.2
+
+pandas == 1.4.4
+
+dotmap == 1.3.30
+
+wfdb == 3.4.0
+
+mne == 1.5.0
+
+
+### System requirements:
+
+
+To run the ECG wavdet fiducial-points detector [matlab runtime (MCR) 2021a](https://www.mathworks.com/products/compiler/matlab-runtime.html) is required.
+
+If you wish to use the epltd peak detector [additional wfdb toolbox](https://archive.physionet.org/physiotools/wfdb-linux-quick-start.shtml) is required.
+
+If you don't want or can't install this - It's Ok! you can use another peak detector from the package.
+
+## Installation
+
+Available on pip, with the command: **pip install pyPSG-toolbox**
+
+pip project: https://pypi.org/project/pyPSG-toolbox/
+
+### Matlab runtime installation:
+
+Follow the guidelines provided in the link: https://www.mathworks.com/products/compiler/matlab-runtime.html, and choose the version of 2021a(9.10).
+
+
 ## Documentation
+
+https://pypsg-github.readthedocs.io/en/latest/

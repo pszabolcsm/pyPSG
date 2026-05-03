@@ -9,25 +9,13 @@ ICU_COVID_patient1.csv
 pobm_env.yml
 pyPSG/IO/mesa-sleep-0006.edf
 sample_cut.edf
+
+temp.py
+
 dist
 *.egg-info
+build
 
-sample_data/meas_spo2.edf
-sample_data/s_01.drc
-sample_data/sample.edf
-sample_data/Szabi_meres.zip
-temp.py
-sample_data/trends.asc
-sample_data/trends2.asc
-sample_data/trends3.asc
-sample_data/waves.asc
-sample_data/waves2.asc
-sample_data/waves3.asc
-biomarkers01.mat
-biomarkers02.mat
-biomarkers03.mat
-meas1.edf
-meas2.edf
-meas3.edf
+my_data
 Szabi_meres
 
