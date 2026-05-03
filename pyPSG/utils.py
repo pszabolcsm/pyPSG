@@ -1,6 +1,8 @@
 import os, sys
 import matplotlib.pyplot as plt
 import numpy as np
+import tkinter as tk
+from tkinter import filedialog
 
 class HiddenPrints:
     """
@@ -15,6 +17,24 @@ class HiddenPrints:
         sys.stdout.close()
         sys.stdout = self._original_stdout
 
+
+def select_file(title="Select file", filetypes=[("EDF files", "*.edf")]):
+    """
+    Open a file dialog and return the selected file path.
+
+    :param title: Dialog window title.
+    :type title: str
+    :param filetypes: List of (label, pattern) tuples defining selectable file types.
+    :type filetypes: list of tuple
+    :return: Selected file path, or empty string if cancelled.
+    :rtype: str
+    """
+
+    # Initialize and hide the Tkinter root window
+    root = tk.Tk()
+    root.withdraw()
+
+    return filedialog.askopenfilename(title=title, filetypes=filetypes)
 
 def plot_leads(signals, fs, leads=range(12), labels=[''], peaks=None, figsize=(8,4)):
     """

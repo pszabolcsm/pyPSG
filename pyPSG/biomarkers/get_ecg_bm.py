@@ -56,7 +56,7 @@ def get_ecg_biomarkers(signal, fs, matlab_path, get_hrv = True, get_peaks_only =
     }
     
     if get_hrv:
-        hrv_biomarker = get_hrv_biomarkers(jqrs_peaks, fs)
+        hrv_biomarker = get_hrv_biomarkers(jqrs_peaks, fs, 30, True)
         
         combined_biomarkers = {
             "ecg": ecg_biomarker,

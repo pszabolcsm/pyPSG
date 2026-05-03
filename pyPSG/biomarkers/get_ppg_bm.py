@@ -8,8 +8,8 @@ import pyPPG.biomarkers as BM
 
 from pyPSG.biomarkers.get_hrv_bm import get_hrv_biomarkers
 
-def get_ppg_biomarkers(signal, fs, filtering=True, fL=0.5000001, fH=12, order=4,
-                       sm_wins={'ppg': 50, 'vpg': 10, 'apg': 10, 'jpg': 10}, correction=pd.DataFrame(), get_brv = True, get_peaks_only = False):
+def get_ppg_biomarkers(signal, fs, filtering=True, fL=0.5000001, fH=12, order=4, sm_wins={'ppg': 50, 'vpg': 10, 'apg': 10, 'jpg': 10},
+                       correction=pd.DataFrame(), get_brv = True, get_peaks_only = False):
     '''
         This function extract PPG-based biomarkers and optionally beat rate variability (BRV) from a PPG signal.
 
@@ -72,7 +72,6 @@ def get_ppg_biomarkers(signal, fs, filtering=True, fL=0.5000001, fH=12, order=4,
     
     # Extract fiducial points
     fiducials = fpex.get_fiducials(s=s)
-    # print("Fiducial points:\n", fiducials + s.start_sig) #TODO: szepen megcsinalani mint Marci
     
     #Return peaks if get_peaks_only is true
     if get_peaks_only:
@@ -99,7 +98,7 @@ def get_ppg_biomarkers(signal, fs, filtering=True, fL=0.5000001, fH=12, order=4,
     if get_brv:
         # Compute beat rate variability biomarkers (BRV)
         peaks = fiducials.sp
-        brv_bm = get_hrv_biomarkers(peaks, fs)
+        brv_bm = get_hrv_biomarkers(peaks, fs, 30, True)
         ppg_bm = {
             "ppg": pyppg_bm,
             "brv": brv_bm

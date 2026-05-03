@@ -44,11 +44,11 @@ def plot_raw_data(signals):
         
         
 
-    ax.legend()
+    #ax.legend()
     plt.tight_layout()
     plt.show()
     
-def plot_variability(ppg_signal, ppg_fs, ecg_signal, ecg_fs, matlab_path):
+def plot_variability(signals, ppg_name, ecg_name, matlab_path):
     """
         Computes and plots breath rate variability (BRV) from PPG and heart rate variability (HRV) from ECG.
 
@@ -69,75 +69,52 @@ def plot_variability(ppg_signal, ppg_fs, ecg_signal, ecg_fs, matlab_path):
         :return: None. Displays a matplotlib figure comparing BRV and HRV over time.
         :rtype: None
         """
-    
-    #BRV
-    ppg_peaks = get_ppg_biomarkers(ppg_signal, ppg_fs, get_peaks_only=True)
-    
-    ppg_peaks=ppg_peaks/ppg_fs
-    
-    window_duration = 60 #seconds
-    ppg_max = max(ppg_peaks)
-    window_begin = 0
-    ppg_bpm = []
-    ppg_time  = []
-    
-    while window_begin + window_duration < ppg_max:
-        count = sum(window_begin <= p < window_begin + window_duration for p in ppg_peaks)
-        ppg_bpm.append(count)
-        ppg_time.append((window_begin + window_duration)/60)
-        window_begin += window_duration
-    
-    #HRV
-    ecg_peaks = get_ecg_biomarkers(ecg_signal, ecg_fs, matlab_path, get_peaks_only=True)
-    
-    ecg_peaks = ecg_peaks / ecg_fs
-    
-    window_duration = 60  # seconds
-    ecg_max = max(ecg_peaks)
-    window_begin = 0
-    ecg_bpm = []
-    ecg_time = []
-    
-    while window_begin + window_duration < ecg_max:
-        count = sum(window_begin <= p < window_begin + window_duration for p in ecg_peaks)
-        ecg_bpm.append(count)
-        ecg_time.append((window_begin + window_duration) / 60)
-        window_begin += window_duration
-        
-        
-        
-    # Plot
     plt.figure(figsize=(10, 4))
-    plt.plot(ppg_time, ppg_bpm, marker='o', linestyle='-', label='BR')
-    plt.plot(ecg_time, ecg_bpm, color='r', marker='o', linestyle='-', label='HR')
+    
+    for ch, data in signals.items():
+        if ch == ppg_name: # BRV
+            
+            ppg_peaks = get_ppg_biomarkers(signals[ch]['signal'], signals[ch]['fs'], get_peaks_only=True)
+            
+            ppg_peaks = ppg_peaks / signals[ch]['fs']
+            
+            window_duration = 60  # seconds
+            ppg_max = max(ppg_peaks)
+            window_begin = 0
+            ppg_bpm = []
+            ppg_time = []
+            
+            while window_begin + window_duration < ppg_max:
+                count = sum(window_begin <= p < window_begin + window_duration for p in ppg_peaks)
+                ppg_bpm.append(count)
+                ppg_time.append((window_begin + window_duration) / 60)
+                window_begin += window_duration
+            
+            plt.plot(ppg_time, ppg_bpm, marker='o', linestyle='-', label='BR')
+            
+        elif ch == ecg_name: #HRV
+            ecg_peaks = get_ecg_biomarkers(signals[ch]['signal'], signals[ch]['fs'], matlab_path, get_peaks_only=True)
+            
+            ecg_peaks = ecg_peaks / signals[ch]['fs']
+            
+            window_duration = 60  # seconds
+            ecg_max = max(ecg_peaks)
+            window_begin = 0
+            ecg_bpm = []
+            ecg_time = []
+            
+            while window_begin + window_duration < ecg_max:
+                count = sum(window_begin <= p < window_begin + window_duration for p in ecg_peaks)
+                ecg_bpm.append(count)
+                ecg_time.append((window_begin + window_duration) / 60)
+                window_begin += window_duration
+            
+            plt.plot(ecg_time, ecg_bpm, color='r', marker='o', linestyle='-', label='HR')
+    
+    # Plot
     plt.xlabel('Time (m)')
     plt.ylabel('BPM')
     plt.title('BRV/HRV')
-    # plt.grid(True)
     plt.legend()
     plt.tight_layout()
     plt.show()
-
-    
-    # if ppg_name != '':
-    #     peaks = get_ppg_biomarkers(signals[ppg_name]['signal'], signals[ppg_name]['fs'], get_peaks_only=True)
-    #     rr_intervals = np.diff(peaks) / signals[ppg_name]['fs']
-    #     short_idx = int(signals[ppg_name]['fs'] * 60)
-    #     rr_intervals = rr_intervals[:short_idx]
-    #     # time = np.arange(len(rr_intervals)) / signals[ppg_name]['fs']
-    #     peak_diffs = np.diff(peaks[:short_idx])
-    #     bpm = 60 / (peak_diffs[1:])
-    #     ax.plot(peaks[:-2] / signals[ppg_name]['fs'], bpm, color='b', linewidth=1, label='BR')
-    #
-    # if ecg_name != '':
-    #     matlab_path = r'C://Program Files//MATLAB//MATLAB Runtime//v910//runtime//win64'
-    #     peaks = get_ecg_biomarkers(signals[ecg_name]['signal'], signals[ecg_name]['fs'], matlab_path=matlab_path,
-    #                                get_peaks_only=True)
-    #     rr_intervals = np.diff(peaks) / signals[ecg_name]['fs']
-    #     short_idx = int(signals[ecg_name]['fs'] * 60)
-    #     rr_intervals = rr_intervals[:short_idx]
-    #     # time = np.arange(len(rr_intervals)) / signals[ecg_name]['fs']
-    #     peak_diffs = np.diff(peaks[:short_idx])
-    #     bpm = 60 / (peak_diffs[1:])
-    #
-    #     ax.plot(peaks[:-2] / signals[ecg_name]['fs'], bpm, color='r', linewidth=1, label='HR')

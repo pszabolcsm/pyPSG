@@ -53,7 +53,7 @@ if __name__ == "__main__":
     
     channels = {"ppg": "Pleth", "ecg": "ECG1"}
     
-    extracted_bms = biomarker_extractor("../../sample_data/meas3.edf", matlab_path, channels)
+    extracted_bms = biomarker_extractor("../../my_data/meas3.edf", matlab_path, channels)
     
     save_data(extracted_bms, "biomarkers03")
     

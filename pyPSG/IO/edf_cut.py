@@ -1,9 +1,6 @@
 import numpy as np
 import pyedflib
 
-from pyPPG.datahandling import save_data
-
-
 def cut_edf(edf_path, output_path, start_time, duration): #Time is specified in sec
     """
             Extract a segment from an EDF file and save it as a new EDF file. Time is specified in sec.
@@ -87,4 +84,4 @@ def cut_edf(edf_path, output_path, start_time, duration): #Time is specified in 
 
 if __name__ == "__main__":
 
-  cut_edf("mesa-sleep-0006.edf", "../../sample2.edf", 12000, 1200)
+  cut_edf("mesa-sleep-0006.edf", "../../sample_data/sample.edf", 12000, 1200)

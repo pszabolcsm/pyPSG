@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import math
 from scipy.signal import welch, get_window
 from scipy.interpolate import interp1d
 
@@ -267,6 +268,10 @@ def buffer(X, n, p=0, opt=None):
                 # Start with `p` zeros
                 result = np.hstack([np.zeros(p), X[:n-p]])
                 i = n-p
+            
+            # Pad the first column with zeros if it’s shorter than n.
+            if len(result) < n:
+                result = np.hstack([result, np.zeros(n - len(result))])
             # Make 2D array and pivot
             result = np.expand_dims(result, axis=0).T
             first_iter = False
@@ -369,7 +374,7 @@ def comp_sample_entropy(segment, m, r):
             
 
 
-def comp_MSE(segment, normalize_std = True, mse_max_scale = 20, sampen_m = 2, sampen_r = 0.2, mse_metrics = False):
+def comp_MSE(segment, normalize_std = True, mse_max_scale = 15, sampen_m = 2, sampen_r = 0.2, mse_metrics = False):
     """
     Calculates the Multiscale Entropy (MSE) of a signal.
 
@@ -380,7 +385,7 @@ def comp_MSE(segment, normalize_std = True, mse_max_scale = 20, sampen_m = 2, sa
 
     :param sig: Signal to calculate MSE for.
     :type sig: array_like
-    :param mse_max_scale: Maximal scale to calculate up to. Default is 20.
+    :param mse_max_scale: Maximal scale to calculate up to. Default is 15.
     :type mse_max_scale: int, optional
     :param sampen_r: The 'r' parameter for Sample Entropy
         (maximum distance between matching points). Default is 0.2.
@@ -414,6 +419,9 @@ def comp_MSE(segment, normalize_std = True, mse_max_scale = 20, sampen_m = 2, sa
     for scale in scale_axis:
         # Split the signal into windows of length 'scale'
         max_idx = (N // scale) * scale
+        if max_idx == 0:
+            mse_result[scale- 1] = np.nan
+            continue
         sig_windows = np.reshape(sig_normalized[:max_idx], (scale, -1), order='F')
         
         # Calculate the mean of each window to obtain the 'coarse-grained' signal
@@ -595,12 +603,14 @@ def freqband_power(pxx, f_axis, f_band):
     
     return power
 
-def comp_freq(segment, vlf_band = [0.003, 0.04], lf_band = [0.04,  0.15], hf_band = [0.15,  0.4], resample_factor = 2.25, freq_osf=4, welch_overlap = 50, window_minutes = 5):
+
+def comp_freq(segment, vlf_band=[0.003, 0.04], lf_band=[0.04, 0.15], hf_band=[0.15, 0.4], resample_factor=2.25,
+              freq_osf=4, welch_overlap=50, window_minutes=5):
     """
     Compute frequency-domain HRV metrics using resampled RR interval data and Welch's method.
     This function estimates the PSD (power spectral density) of a given nn-interval sequence,
     and calculates the power in various frequency bands.
-    
+
     :param segment: Sequence of NN intervals in seconds.
     :type segment: ndarray
     :param vlf_band: Frequency band for Very Low Frequency (VLF) power, default is [0.003, 0.04] Hz.
@@ -645,23 +655,26 @@ def comp_freq(segment, vlf_band = [0.003, 0.04], lf_band = [0.04,  0.15], hf_ban
     # Minimal window length (in seconds) needed to resolve f_min
     t_win_min = 1 / f_min
     
-    # Increase windiw size if too small
+    # Increase window size if too small
     t_win = 60 * window_minutes
     if t_win < t_win_min:
         t_win = t_win_min
-        
+    
     # In case there's not enough data for one window, use entire signal length
     num_windows = int(np.floor(t_max / t_win))
     if num_windows < 1:
         num_windows = 1
-        t_win = int(np.floor(tnn[-1] - tnn[0]))
-        
+        t_win = max(float(tnn[-1] - tnn[0]), 1e-6)
+    
     # Uniform sampling freq: take at least 2x more than f_max
     fs_uni = resample_factor * f_max  # Hz
     
     # Uniform time axis
     tnn_uni = np.arange(tnn[0], tnn[-1], 1 / fs_uni)
-    n_win_uni = int(np.floor(t_win * fs_uni)) # Number of samples in each window
+    if len(tnn_uni) < 2:
+        tnn_uni = np.linspace(tnn[0], tnn[-1], 2)
+    n_win_uni = int(np.floor(t_win * fs_uni))  # Number of samples in each window
+    n_win_uni = max(2, min(n_win_uni, len(tnn_uni)))  # Make sure it's not 0 or longer then the segment
     num_windows_uni = int(np.floor(len(tnn_uni) / n_win_uni))
     
     # Build frequenceny axis
@@ -669,39 +682,43 @@ def comp_freq(segment, vlf_band = [0.003, 0.04], lf_band = [0.04,  0.15], hf_ban
     f_res = 1 / (n_win_uni * ts)  # Frequency resolution
     f_res = f_res / freq_osf  # Apply oversampling faktor
     
-    
     f_axis = np.arange(f_res, f_max + f_res, f_res)
     f_axis = np.transpose(f_axis)
     
     # Check Nyquist criterion: we need at least 2*f_max*t_win samples in each window to resolve f_max
     if n_win_uni < 2 * f_max * t_win:
         print('Warning: Nyquist criterion not met for given window length and frequency bands')
-        
+    
     # Initialize output
     pxx_welch = np.zeros(len(f_axis))
     
     # Interpolate nn-intervals
-    interp_func = interp1d(tnn, segment, kind='cubic')
+    kind = 'cubic' if len(tnn) >= 4 else 'linear'
+    interp_func = interp1d(tnn, segment, kind=kind, bounds_error=False, fill_value="extrapolate")
     segment_uni = interp_func(tnn_uni)
     
     # Welch method
     window = get_window('hamming', n_win_uni)
     welch_overlap_samples = int(np.floor(n_win_uni * welch_overlap / 100))
     # Calculate Welch PSD
-    nfft = 2**13
-    f_welch, pxx_welch = welch(segment_uni, fs=fs_uni, window=window, noverlap=welch_overlap_samples, nfft=nfft,  scaling='density')
+    nfft = 2 ** 13
+    f_welch, pxx_welch = welch(segment_uni, fs=fs_uni, window=window, noverlap=welch_overlap_samples, nfft=nfft,
+                               scaling='density')
     pxx_welch = np.interp(f_axis, f_welch, pxx_welch)
     pxx_welch = pxx_welch / 2
-    pxx_welch = pxx_welch * (1 / np.mean(window)) # Gain correction
+    pxx_welch = pxx_welch * (1 / np.mean(window))  # Gain correction
     
     # Get entire frequency range
     total_band = [f_axis[0], f_axis[-1]]
     
     # Absolute power in each band
-    total_power = freqband_power(pxx_welch, f_axis, total_band) * 1e6
-    vlf_power = freqband_power(pxx_welch, f_axis, vlf_band) * 1e6
-    lf_power = freqband_power(pxx_welch, f_axis, lf_band) * 1e6
-    hf_power = freqband_power(pxx_welch, f_axis, hf_band) * 1e6
+    try:
+        total_power = freqband_power(pxx_welch, f_axis, total_band) * 1e6
+        vlf_power   = freqband_power(pxx_welch, f_axis, vlf_band) * 1e6
+        lf_power    = freqband_power(pxx_welch, f_axis, lf_band)  * 1e6
+        hf_power    = freqband_power(pxx_welch, f_axis, hf_band)  * 1e6
+    except Exception:
+        return (np.nan,)*8
     
     # Calculate normalized power in each band
     vlf_norm = 100 * vlf_power / total_power
@@ -712,7 +729,7 @@ def comp_freq(segment, vlf_band = [0.003, 0.04], lf_band = [0.04,  0.15], hf_ban
     return total_power, vlf_power, lf_power, hf_power, vlf_norm, lf_norm, hf_norm, lf_hf_ratio
 
 
-def get_all_metrics(rr_intervals):
+def get_all_metrics(rr_intervals, win_len, include_last_partial=False, min_intervals=2):
     """
     Calculate all metrics for given intervals.
     
@@ -723,87 +740,114 @@ def get_all_metrics(rr_intervals):
 
 
     """
-    rr_intervals = np.asarray(rr_intervals, dtype=np.float64).flatten()
-    
-    AVNN = comp_AVNN(rr_intervals)
-    SDNN = comp_SDNN(rr_intervals)
-    RMSSD = comp_RMSSD(rr_intervals)
-    PNN50 = comp_PNN50(rr_intervals)
-    SEM = comp_SEM(rr_intervals)
-    
-    PIP = comp_PIP(rr_intervals)
-    IALS = comp_IALS(rr_intervals)
-    PSS = comp_PSS(rr_intervals)
-    PAS = comp_PAS(rr_intervals)
-    
-    SD1 = comp_SD1(rr_intervals)
-    SD2 = comp_SD2(rr_intervals)
-    alpha_1 = comp_alpha_1(rr_intervals)
-    alpha_2 = comp_alpha_2(rr_intervals)
-    MSE = comp_MSE(rr_intervals)
-    
-    (
-        total_power,
-        vlf_power,
-        lf_power,
-        hf_power,
-        vlf_norm,
-        lf_norm,
-        hf_norm,
-        lf_hf_ratio
-    ) = comp_freq(rr_intervals)
-    
-    hrv_metrics = {
-        "AVNN": AVNN,
-        "SDNN": SDNN,
-        "RMSSD": RMSSD,
-        "PNN50": PNN50,
-        "SEM": SEM,
-        
-        "PIP": PIP,
-        "IALS": IALS,
-        "PSS": PSS,
-        "PAS": PAS,
-        
-        "SD1": SD1,
-        "SD2": SD2,
-        "alpha_1": alpha_1,
-        "alpha_2": alpha_2,
-        "MSE": MSE,
-        
-        "TOTAL_POWER": total_power,
-        "VLF_POWER": vlf_power,
-        "LF_POWER": lf_power,
-        "HF_POWER": hf_power,
-        "VLF_NORM": vlf_norm,
-        "LF_NORM": lf_norm,
-        "HF_NORM": hf_norm,
-        "LF_HF_RATIO": lf_hf_ratio
+    rr = np.asarray(rr_intervals, dtype=np.float64).flatten()
+    # Predefine empty output structure
+    empty = {
+        "AVNN": [], "SDNN": [], "RMSSD": [], "PNN20": [], "PNN50": [], "SEM": [],
+        "PIP": [], "IALS": [], "PSS": [], "PAS": [],
+        "SD1": [], "SD2": [], "alpha_1": [], "alpha_2": [], "MSE": [],
+        "TOTAL_POWER": [], "VLF_POWER": [], "LF_POWER": [], "HF_POWER": [],
+        "VLF_NORM": [], "LF_NORM": [], "HF_NORM": [], "LF_HF_RATIO": []
     }
+    if rr.size == 0 or np.isnan(rr).all() or win_len <= 0:
+        return empty
     
-    return hrv_metrics
+    # Compute cumulative times of RR intervals (beat timestamps)
+    # edges[i+1] = time at the end of the i-th RR interval
+    edges = np.concatenate([[0.0], np.cumsum(rr)])
+    total_dur = float(edges[-1])
+    
+    # Determine last window start time
+    # If not including partial windows, stop at total_dur - win_len
+    last_start = 0.0 if include_last_partial else max(0.0, total_dur - win_len)
+    
+    # Initialize output lists
+    AVNN = []
+    SDNN = []
+    RMSSD = []
+    PNN20 = []
+    PNN50 = []
+    SEM = []
+    PIP = []
+    IALS = []
+    PSS = []
+    PAS = []
+    SD1 = []
+    SD2 = []
+    alpha_1 = []
+    alpha_2 = []
+    MSE = []
+    total_power = []
+    vlf_power = []
+    lf_power = []
+    hf_power = []
+    vlf_norm = []
+    lf_norm = []
+    hf_norm = []
+    lf_hf_ratio = []
+    
+    def safe_append(val, lst):
+        """Append value if valid (not None and not NaN)."""
+        if val is not None and not (isinstance(val, float) and math.isnan(val)):
+            lst.append(val)
+    
+    w_start = 0.0
+    eps = 1e-12
+    while w_start <= last_start + eps:
+        w_end = w_start + win_len
+        
+        # Select RR intervals that overlap this time window.
+        # Each RR interval covers (edges[i], edges[i+1]).
+        # We include an RR if it intersects (w_start, w_end).
+        mask = (edges[:-1] < w_end - eps) & (edges[1:] > w_start + eps)
+        win = rr[mask]
+        
+        if win.size >= min_intervals:
+            # --- Time-domain metrics ---
+            safe_append(comp_AVNN(win), AVNN)
+            safe_append(comp_SDNN(win), SDNN)
+            safe_append(comp_RMSSD(win), RMSSD)
+            safe_append(comp_PNN20(win), PNN20)
+            safe_append(comp_PNN50(win), PNN50)
+            safe_append(comp_SEM(win), SEM)
+            
+            # Fragmentaion metrics
+            safe_append(comp_PIP(win), PIP)
+            safe_append(comp_IALS(win), IALS)
+            safe_append(comp_PSS(win), PSS)
+            safe_append(comp_PAS(win), PAS)
+            
+            # Non-linear metrics
+            safe_append(comp_SD1(win), SD1)
+            safe_append(comp_SD2(win), SD2)
+            safe_append(comp_alpha_1(win), alpha_1)
+            safe_append(comp_alpha_2(win), alpha_2)
+            safe_append(comp_MSE(win), MSE)
+            
+            # Frequency-domain metrics
+            total_p, vlf_p, lf_p, hf_p, vlf_n, lf_n, hf_n, lf_hf_rat = comp_freq(win)
+            safe_append(total_p, total_power)
+            safe_append(vlf_p, vlf_power)
+            safe_append(lf_p, lf_power)
+            safe_append(hf_p, hf_power)
+            safe_append(vlf_n, vlf_norm)
+            safe_append(lf_n, lf_norm)
+            safe_append(hf_n, hf_norm)
+            safe_append(lf_hf_rat, lf_hf_ratio)
+        # If not enough RR intervals, simply skip this window.
+        
+        # Move to the next non-overlapping window
+        w_start += win_len
+    
+    return {
+        "AVNN": AVNN, "SDNN": SDNN, "RMSSD": RMSSD, "PNN20": PNN20, "PNN50": PNN50, "SEM": SEM,
+        "PIP": PIP, "IALS": IALS, "PSS": PSS, "PAS": PAS,
+        "SD1": SD1, "SD2": SD2, "alpha_1": alpha_1, "alpha_2": alpha_2, "MSE": MSE,
+        "TOTAL_POWER": total_power, "VLF_POWER": vlf_power, "LF_POWER": lf_power, "HF_POWER": hf_power,
+        "VLF_NORM": vlf_norm, "LF_NORM": lf_norm, "HF_NORM": hf_norm, "LF_HF_RATIO": lf_hf_ratio
+    }
      
     
 
 if __name__ == "__main__":
     a = 0
-    # edf_path = "sample.edf"
-    # channels = ["SpO2", "Pleth", "EKG"]
-    # patient_name = "Patient_1"
-    #
-    # signals = read_edf_signals(edf_path, channels)
-    #
-    # signal = signals["EKG"]["signal"]
-    # fs = signals["EKG"]["fs"]
-    #
-    # pre = Pre.Preprocessing(signal, fs)
-    #
-    # # Notch filter the powerline:
-    # filtered_signal = pre.notch(n_freq=50)  # 50 Hz for european powerline, 60 Hz for USA
-    #
-    # # Bandpass for baseline wander and high-frequency noise:
-    # filtered_signal = Pre.Preprocessing(filtered_signal, fs).bpfilt()
-    #
-    # fp = Fp.FiducialPoints(signal, fs)
-    #
-    # r_peaks = fp.jqrs()  #TODO: epltd function error, txt
