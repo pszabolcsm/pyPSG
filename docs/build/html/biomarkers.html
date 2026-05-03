@@ -76,6 +76,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tutorials.html">Tutorials</a></li>
+</ul>
 
         </div>
       </div>
@@ -133,7 +137,7 @@ Otherwise, only the ECG biomarkers are returned.</p>
 <span id="pypsg-biomarkers-get-hrv-bm"></span><h2>pyPSG.biomarkers.get_hrv_bm<a class="headerlink" href="#module-pyPSG.biomarkers.get_hrv_bm" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.biomarkers.get_hrv_bm.get_hrv_biomarkers">
-<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.get_hrv_bm.</span></span><span class="sig-name descname"><span class="pre">get_hrv_biomarkers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">peaks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.get_hrv_bm.get_hrv_biomarkers" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.get_hrv_bm.</span></span><span class="sig-name descname"><span class="pre">get_hrv_biomarkers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">peaks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_last_partial</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.get_hrv_bm.get_hrv_biomarkers" title="Link to this definition"></a></dt>
 <dd><p>This function computes heart rate variability (HRV) biomarkers from peak indices.
 When applied to PPG signals, the function effectively computes Beat Rate Variability (BRV).</p>
 <dl class="field-list simple">
@@ -141,6 +145,7 @@ When applied to PPG signals, the function effectively computes Beat Rate Variabi
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>peaks</strong> (<em>array-like</em>) – Indices of heartbeat peaks in the signal in seconds(sample positions).</p></li>
 <li><p><strong>fs</strong> (<em>float</em>) – Sampling frequency of the signal in Hz.</p></li>
+<li><p><strong>win_len</strong> (<em>float</em>) – Window length in seconds.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

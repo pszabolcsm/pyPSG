@@ -15,4 +15,10 @@ Welcome to pyPSG documentation!
 
    moduls.rst
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Tutorials:
+
+   tutorials/tutorials.rst
+
 

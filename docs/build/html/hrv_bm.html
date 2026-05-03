@@ -19,6 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorials" href="tutorials/tutorials.html" />
     <link rel="prev" title="pyPSG other modules" href="pyPSG.html" /> 
 </head>
 
@@ -78,6 +79,10 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tutorials.html">Tutorials</a></li>
 </ul>
 
         </div>
@@ -184,7 +189,7 @@ while ‘nodelay’ begins filling the buffer immediately.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.comp_MSE">
-<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_MSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mse_max_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampen_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampen_r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mse_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_MSE" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">comp_MSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mse_max_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampen_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampen_r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mse_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.comp_MSE" title="Link to this definition"></a></dt>
 <dd><p>Calculates the Multiscale Entropy (MSE) of a signal.</p>
 <p>Multiscale Entropy is a measure of a signal’s complexity. This function computes
 the Sample Entropy of the signal at various scales from 1 to <cite>mse_max_scale</cite>.
@@ -194,7 +199,7 @@ Sample Entropy is calculated for the resulting coarse-grained signal.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sig</strong> (<em>array_like</em>) – Signal to calculate MSE for.</p></li>
-<li><p><strong>mse_max_scale</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximal scale to calculate up to. Default is 20.</p></li>
+<li><p><strong>mse_max_scale</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximal scale to calculate up to. Default is 15.</p></li>
 <li><p><strong>sampen_r</strong> (<em>float</em><em>, </em><em>optional</em>) – The ‘r’ parameter for Sample Entropy
 (maximum distance between matching points). Default is 0.2.</p></li>
 <li><p><strong>sampen_m</strong> (<em>int</em><em>, </em><em>optional</em>) – The ‘m’ parameter for Sample Entropy
@@ -513,7 +518,7 @@ and computes the segment lengths between them.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.biomarkers.hrv_bms.get_all_metrics">
-<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">get_all_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr_intervals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.get_all_metrics" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPSG.biomarkers.hrv_bms.</span></span><span class="sig-name descname"><span class="pre">get_all_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rr_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_last_partial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_intervals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.biomarkers.hrv_bms.get_all_metrics" title="Link to this definition"></a></dt>
 <dd><p>Calculate all metrics for given intervals.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -533,6 +538,7 @@ and computes the segment lengths between them.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="pyPSG.html" class="btn btn-neutral float-left" title="pyPSG other modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials/tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

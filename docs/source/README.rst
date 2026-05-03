@@ -62,7 +62,7 @@ Installation
 ------------
 Available on pip, with the command: **pip install pyPSG-toolbox**
 
-pip project:
+pip project: https://pypi.org/project/pyPSG-toolbox/
 
 Matlab runtime installation:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

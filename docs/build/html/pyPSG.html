@@ -55,6 +55,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.utils">pyPSG.utils</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyPSG.utils.HiddenPrints"><code class="docutils literal notranslate"><span class="pre">HiddenPrints</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyPSG.utils.plot_leads"><code class="docutils literal notranslate"><span class="pre">plot_leads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.utils.select_file"><code class="docutils literal notranslate"><span class="pre">select_file()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -62,6 +63,10 @@
 <li class="toctree-l2"><a class="reference internal" href="hrv_bm.html">Heart Rate variability biomarkers</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tutorials.html">Tutorials</a></li>
 </ul>
 
         </div>
@@ -96,9 +101,9 @@
 <span id="pypsg-pypsg-example"></span><h2>pyPSG.pypsg_example<a class="headerlink" href="#module-pyPSG.pypsg_example" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.pypsg_example.pypsg_example">
-<span class="sig-prename descclassname"><span class="pre">pyPSG.pypsg_example.</span></span><span class="sig-name descname"><span class="pre">pypsg_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edf_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matlab_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'ecg':</span> <span class="pre">'',</span> <span class="pre">'ppg':</span> <span class="pre">'',</span> <span class="pre">'spo2':</span> <span class="pre">''}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.pypsg_example.pypsg_example" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPSG.pypsg_example.</span></span><span class="sig-name descname"><span class="pre">pypsg_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edf_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matlab_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'ecg':</span> <span class="pre">'',</span> <span class="pre">'ppg':</span> <span class="pre">'',</span> <span class="pre">'spo2':</span> <span class="pre">''}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.pypsg_example.pypsg_example" title="Link to this definition"></a></dt>
 <dd><p>Demonstrates the usage of the pyPSG toolbox to read an EDF file, visualize raw signals,
-compute heart rate variability (HRV) and breath rate variability (BRV),
+compute heart rate variability (HRV) and beat rate variability (BRV),
 and extract biomarkers for PPG, ECG, and SpO₂ signals.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -149,6 +154,26 @@ into a <cite>.mat</cite> file in the directory <cite>temp_dir/biomarkers</cite>.
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.utils.select_file">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.utils.</span></span><span class="sig-name descname"><span class="pre">select_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Select</span> <span class="pre">file'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[('EDF</span> <span class="pre">files',</span> <span class="pre">'*.edf')]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.utils.select_file" title="Link to this definition"></a></dt>
+<dd><p>Open a file dialog and return the selected file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>str</em>) – Dialog window title.</p></li>
+<li><p><strong>filetypes</strong> (<em>list</em><em> of </em><em>tuple</em>) – List of (label, pattern) tuples defining selectable file types.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Selected file path, or empty string if cancelled.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

@@ -71,6 +71,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tutorials.html">Tutorials</a></li>
+</ul>
 
         </div>
       </div>
@@ -189,7 +193,7 @@ Keys are channel names, values are dictionaries with keys:
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.IO.plot.plot_variability">
-<span class="sig-prename descclassname"><span class="pre">pyPSG.IO.plot.</span></span><span class="sig-name descname"><span class="pre">plot_variability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ppg_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ppg_fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ecg_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ecg_fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matlab_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.plot.plot_variability" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPSG.IO.plot.</span></span><span class="sig-name descname"><span class="pre">plot_variability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ppg_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ecg_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matlab_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.plot.plot_variability" title="Link to this definition"></a></dt>
 <dd><p>Computes and plots breath rate variability (BRV) from PPG and heart rate variability (HRV) from ECG.</p>
 <p>BRV is calculated from detected PPG peaks, HRV from detected ECG peaks.
 Both are computed in 60-second sliding windows, and plotted as BPM over time.</p>
