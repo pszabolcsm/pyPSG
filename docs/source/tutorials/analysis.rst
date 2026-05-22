@@ -12,7 +12,7 @@ Our objectives are to:
 - extracting biomarkers
 
 This tutorial assumes that you have already completed the setup of **pyPSG**.
-For installation and initial configuration, see the example code tutorial.
+For installation and initial configuration, see the `example code tutorial <https://pypsg-github.readthedocs.io/en/latest/tutorials/example.html>`_ .
 
 Download data
 -------------
@@ -198,6 +198,41 @@ Detect characteristic points in the PPG waveform:
 Fiducial points represent key landmarks in the waveform (e.g., systolic peak,
 dicrotic notch), which are essential for further analysis.
 
+Visualize the detected fiducial points on the PPG waveform:
+
+.. code-block:: python
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fid_df = fp.get_fp()
+
+    start = int(10 * s.fs)
+    end = int(20 * s.fs)
+
+    sig = s.ppg[start:end]
+    x = np.arange(start, end)
+
+    plt.figure(figsize=(15,5))
+    plt.plot(x, sig, color="black", label="PPG")
+
+    for col in ["sp", "on", "dn", "dp"]:
+        idx = fid_df[col].dropna().astype(int)
+        idx = idx[(idx >= start) & (idx < end)]
+
+        plt.scatter(idx, s.ppg[idx], label=col)
+
+    plt.title("PPG Fiducial Points")
+    plt.xlabel("Samples")
+    plt.ylabel("Amplitude")
+    plt.legend()
+    plt.grid(True)
+
+    plt.show()
+
+.. image:: images/ppg_fiducials.png
+   :width: 600px
+   :align: center
+
 Biomarker extraction
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -231,6 +266,7 @@ Apply filtering to remove powerline interference and noise:
 .. code-block:: python
 
     from pecg import Preprocessing as Pre
+    from pyPSG.utils import HiddenPrints
 
     pre = Pre.Preprocessing(
         signals[channels["ecg"]]["signal"],
@@ -238,7 +274,8 @@ Apply filtering to remove powerline interference and noise:
     )
 
     # Remove powerline noise (50 Hz in Europe, 60 Hz in the US)
-    filtered_signal = pre.notch(n_freq=50)
+     with HiddenPrints(): # to avoid long verbose
+        filtered_signal = pre.notch(n_freq=50)
 
     # Apply bandpass filtering to remove baseline wander and high-frequency noise
     filtered_signal = Pre.Preprocessing(
@@ -266,10 +303,62 @@ Detect R-peaks and compute fiducial points:
     jqrs_peaks = fp.jqrs()
 
     # Compute fiducial points using the Wavedet algorithm (MATLAB Runtime required)
+    matlab_path = "C:\Program Files\MATLAB\MATLAB Runtime\v910" # Replace this path with your local MATLAB Runtime installation path
     ecg_fiducials = fp.wavedet(matlab_path, peaks=jqrs_peaks)
 
 The Wavedet algorithm relies on MATLAB Runtime and is used to extract
 detailed ECG fiducial points.
+
+Visualize the detected ECG fiducial points on the filtered ECG signal:
+
+.. code-block:: python
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fs = signals["EKG"]["fs"]
+
+    start = int(20 * fs)
+    end = int(25 * fs)
+
+    sig = filtered_signal[start:end]
+    time = np.arange(start, end) / fs
+
+    fid = ecg_fiducials[0]
+
+    plt.figure(figsize=(15, 5))
+    plt.plot(time, sig, color="black", label="Filtered ECG")
+
+    fiducial_labels = [
+        "Pon",
+        "P",
+        "Poff",
+        "QRSon",
+        "qrs",
+        "QRSoff",
+        "Ton",
+        "T",
+        "Toff"
+    ]
+
+    for label in fiducial_labels:
+
+        idx = fid[label]
+
+        idx = idx[(idx >= start) & (idx < end)].astype(int)
+
+        plt.scatter(idx / fs, filtered_signal[idx], zorder=5, s=35, label=label)
+
+    plt.xlabel("Time [s]")
+    plt.ylabel("Amplitude")
+    plt.title("ECG Fiducial Points")
+    plt.legend(ncol=3)
+    plt.grid(True)
+
+    plt.show()
+
+.. image:: images/ecg_fiducials.png
+   :width: 600px
+   :align: center
 
 Biomarker extraction
 ^^^^^^^^^^^^^^^^^^^^
