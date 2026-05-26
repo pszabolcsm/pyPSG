@@ -6,3 +6,4 @@ Tutorials
 
    example
    analysis
+   ml_case_study

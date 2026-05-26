@@ -143,3 +143,56 @@ Deactivate the virtual environment:
    deactivate
 
 You have successfully installed pyPSG, executed the example code, and explored the results. Feel free to customize and use pyPSG for your projects.
+
+Output files
+============
+
+During the execution of the example, several output files are generated and saved into the ``temp_dir`` directory.
+
+Raw signal and variability plots
+--------------------------------
+
+The toolbox generates visualisations of the loaded physiological signals and the computed BRV/HRV trends.
+
+.. image:: images/raw_data.png
+   :width: 700
+   :align: center
+
+.. image:: images/bpm.png
+   :width: 500
+   :align: center
+
+Exported CSV files
+------------------
+
+The extracted biomarker statistics are automatically exported into CSV files for further analysis.
+
+The following files are generated:
+
+- ``spo2_summary.csv``
+  Summary table of the extracted SpO₂ biomarkers.
+
+- ``ppg_stats.csv``
+  Statistical summary of PPG biomarkers and derived ratios.
+
+- ``brv_summary.csv``
+  Statistical summary of Beat Rate Variability (BRV) biomarkers.
+
+- ``hrv_summary.csv``
+  Statistical summary of Heart Rate Variability (HRV) biomarkers.
+
+- ``ecg_summary.csv``
+  Statistical summary of ECG interval and waveform biomarkers.
+
+The CSV files can be directly opened in spreadsheet software such as Microsoft Excel or imported into data analysis libraries such as Pandas.
+
+MATLAB export
+-------------
+
+In addition to the CSV files, all extracted biomarkers are also saved into a MATLAB ``.mat`` file:
+
+.. code-block:: text
+
+   temp_dir/biomarkers.mat
+
+This file preserves the complete nested biomarker structure and can be loaded directly in MATLAB or SciPy.

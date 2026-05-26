@@ -6,6 +6,8 @@ from pyPSG.biomarkers import hrv_bms as hrv
 
 import numpy as np
 import pandas as pd
+import os
+import scipy.stats as sp
 
 from pobm.prep import set_range, median_spo2
 
@@ -112,7 +114,9 @@ def pypsg_example(edf_path=None, matlab_path=None, channels = {"ppg": "", "ecg":
         spo2_bm = extract_biomarkers_per_signal(signal = spo2_signal, patient = 'Patient 1', time_begin=time_begin, time_end=time_end)
         
         extracted_bms['spo2'] = spo2_bm
-
+        # Save data to csv
+        os.makedirs("temp_dir", exist_ok=True)
+        spo2_bm.to_csv("temp_dir/spo2_summary.csv", index=False)
 
     ## PPG ##
     
@@ -172,6 +176,16 @@ def pypsg_example(edf_path=None, matlab_path=None, channels = {"ppg": "", "ecg":
         
         extracted_bms['ppg'] = ppg_bm
         
+        # Save data to csv
+        ppg_stats_df = pd.concat(
+            ppg_bm.bm_stats.values(),
+            axis=1
+        )
+        
+        ppg_stats_df.to_csv(
+            "temp_dir/ppg_stats.csv"
+        )
+        
         ## BRV ##
         
         ppg_peaks = ppg_fiducials.sp
@@ -182,7 +196,31 @@ def pypsg_example(edf_path=None, matlab_path=None, channels = {"ppg": "", "ecg":
         # Extract all available BRV metrics from the RR intervals
         brv_bm = hrv.get_all_metrics(rr_intervals, 30)
         
-        extracted_bms['brv'] = brv_bm
+        # Compute summary statistics for each biomarker
+        brv_stats = {}
+        
+        for name, values in brv_bm.items():
+            stats = {}
+            
+            stats['mean'] = np.nanmean(values)
+            stats['median'] = np.nanmedian(values)
+            stats['std'] = np.nanstd(values)
+            stats['percentile_25'] = np.nanpercentile(values, 25)
+            stats['percentile_75'] = np.nanpercentile(values, 75)
+            stats['iqr'] = sp.iqr(values, nan_policy='omit')
+            stats['skew'] = sp.skew(values, nan_policy='omit')
+            stats['kurtosis'] = sp.kurtosis(values, nan_policy='omit')
+            stats['mad'] = sp.median_abs_deviation(values, nan_policy='omit')
+            
+            brv_stats[name] = stats
+        
+        # Convert the statistics dictionary into a DataFrame
+        brv_df = pd.DataFrame(brv_stats).T
+        
+        # Save BRV biomarker statistics into a CSV file
+        brv_df.to_csv(
+            "temp_dir/brv_summary.csv"
+        )
     
     
     ## ECG ##
@@ -218,6 +256,17 @@ def pypsg_example(edf_path=None, matlab_path=None, channels = {"ppg": "", "ecg":
         }
         
         extracted_bms['ecg'] = ecg_bm
+        
+        # Merge interval and wave statistics
+        ecg_stats = stat_i | stat_w
+        
+        # Convert ECG statistics into a DataFrame
+        ecg_df = pd.DataFrame(ecg_stats).T
+        
+        # Save ECG biomarker statistics into a CSV file
+        ecg_df.to_csv(
+            "temp_dir/ecg_summary.csv"
+        )
     
     
         ## HRV ##
@@ -228,7 +277,31 @@ def pypsg_example(edf_path=None, matlab_path=None, channels = {"ppg": "", "ecg":
         # Extract all available HRV metrics from the RR intervals
         hrv_bm = hrv.get_all_metrics(rr_intervals, 30)
         
-        extracted_bms['hrv'] = hrv_bm
-    
+        # Compute summary statistics for each biomarker
+        hrv_stats = {}
+        
+        for name, values in hrv_bm.items():
+            stats = {}
+            
+            stats['mean'] = np.nanmean(values)
+            stats['median'] = np.nanmedian(values)
+            stats['std'] = np.nanstd(values)
+            stats['percentile_25'] = np.nanpercentile(values, 25)
+            stats['percentile_75'] = np.nanpercentile(values, 75)
+            stats['iqr'] = sp.iqr(values, nan_policy='omit')
+            stats['skew'] = sp.skew(values, nan_policy='omit')
+            stats['kurtosis'] = sp.kurtosis(values, nan_policy='omit')
+            stats['mad'] = sp.median_abs_deviation(values, nan_policy='omit')
+            
+            hrv_stats[name] = stats
+        
+        # Convert the statistics dictionary into a DataFrame
+        hrv_df = pd.DataFrame(hrv_stats).T
+        
+        # Save HRV biomarker statistics into a CSV file
+        hrv_df.to_csv(
+            "temp_dir/hrv_summary.csv"
+        )
+        
     # Save data into a .mat file
     save_data(extracted_bms, 'temp_dir/biomarkers')

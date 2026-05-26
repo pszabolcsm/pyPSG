@@ -48,6 +48,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Data handling</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.IO.data_handling">pyPSG.IO.data_handling</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyPSG.IO.data_handling.save_data"><code class="docutils literal notranslate"><span class="pre">save_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.IO.data_handling.save_data_csv"><code class="docutils literal notranslate"><span class="pre">save_data_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPSG.IO.data_handling.save_data_mat"><code class="docutils literal notranslate"><span class="pre">save_data_mat()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-pyPSG.IO.edf_cut">pyPSG.IO.edf_cut</a><ul>
@@ -109,6 +111,38 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPSG.IO.data_handling.save_data">
 <span class="sig-prename descclassname"><span class="pre">pyPSG.IO.data_handling.</span></span><span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.data_handling.save_data" title="Link to this definition"></a></dt>
+<dd><p>Save a dictionary of data to a MATLAB .mat file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>dict</em>) – A dictionary containing variable names as keys and the corresponding data as values.</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path where the .mat file will be saved. If it doesn’t end with ‘.mat’, it will be added automatically.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.IO.data_handling.save_data_csv">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.IO.data_handling.</span></span><span class="sig-name descname"><span class="pre">save_data_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.data_handling.save_data_csv" title="Link to this definition"></a></dt>
+<dd><p>Save dictionary contents into CSV files.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>data<span class="classifier">dict</span></dt><dd><p>Dictionary containing biomarker data.</p>
+</dd>
+<dt>output_dir<span class="classifier">str</span></dt><dd><p>Directory where CSV files will be saved.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPSG.IO.data_handling.save_data_mat">
+<span class="sig-prename descclassname"><span class="pre">pyPSG.IO.data_handling.</span></span><span class="sig-name descname"><span class="pre">save_data_mat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPSG.IO.data_handling.save_data_mat" title="Link to this definition"></a></dt>
 <dd><p>Save a dictionary of data to a MATLAB .mat file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

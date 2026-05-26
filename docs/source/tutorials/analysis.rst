@@ -1,6 +1,8 @@
 Multimodal Signal Analysis with pyPSG
 =======================================
 
+`Download Jupiter notebook version here <https://github.com/pszabolcsm/pyPSG/blob/main/docs/source/tutorials/analysis.ipynb>`__
+
 This tutorial provides a detailed walkthrough of multimodal physiological signal analysis using **pyPSG**,
 focusing on how different signals (ECG, PPG, HRV, and SpO2) are processed and how biomarkers are derived from them.
 
@@ -201,6 +203,7 @@ dicrotic notch), which are essential for further analysis.
 Visualize the detected fiducial points on the PPG waveform:
 
 .. code-block:: python
+
     import matplotlib.pyplot as plt
     import numpy as np
 
@@ -312,6 +315,7 @@ detailed ECG fiducial points.
 Visualize the detected ECG fiducial points on the filtered ECG signal:
 
 .. code-block:: python
+
     import matplotlib.pyplot as plt
     import numpy as np
 
