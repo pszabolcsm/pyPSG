@@ -1,4 +1,4 @@
-﻿alabaster==0.7.16
+alabaster==0.7.16
 altgraph==0.17.3
 appdirs==1.4.4
 array-api-compat==1.16.0
