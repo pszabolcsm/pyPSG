@@ -11,7 +11,7 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
 
 setup(
     name="pyPSG-toolbox", # Name of the package
-    version="1.0.9",
+    version="1.1.0",
     description="Python toolbox for PPG, ECG, SPO2 and HRV analysis",
     author="Szabolcs M. Péter, Marton A. Goda, PhD",
     author_email="peter.szabolcs.matyas@hallgato.ppke.hu",
