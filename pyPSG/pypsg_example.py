@@ -3,6 +3,7 @@ from pyPSG.IO.data_handling import save_data
 from pyPSG.IO.plot import plot_raw_data, plot_variability
 from pyPSG.biomarkers.get_spo2_bm import extract_biomarkers_per_signal
 from pyPSG.biomarkers import hrv_bms as hrv
+from pyPSG.biomarkers.get_pcg_bm import extract_heart_sound_features
 
 import numpy as np
 import pandas as pd
@@ -22,7 +23,12 @@ from pecg import Preprocessing as Pre
 from pecg.ecg import FiducialPoints as Fp
 from pecg.ecg import Biomarkers as Bm
 
-def pypsg_example(edf_path=None, matlab_path=None, channels = {"ppg": "", "ecg": "", "spo2": ""}):
+import pyPCG as pcg
+import pyPCG.preprocessing as pcg_preproc
+import pyPCG.segment as pcg_sgm
+import pyPCG.features as pcg_features
+
+def pypsg_example(edf_path=None, matlab_path=None, channels = {"ppg": "", "ecg": "", "spo2": "", "pcg": ""}):
     """
     Demonstrates the usage of the pyPSG toolbox to read an EDF file, visualize raw signals,
     compute heart rate variability (HRV) and beat rate variability (BRV),
@@ -83,6 +89,9 @@ def pypsg_example(edf_path=None, matlab_path=None, channels = {"ppg": "", "ecg":
     if "spo2" in channels:
         spo2_name = channels["spo2"]
     else: spo2_name = ''
+    if "pcg" in channels:
+        pcg_name = channels["pcg"]
+    else: pcg_name = ''
     
     #Read the edf file
     signals = read_edf_signals(edf_path, channels.values())
@@ -302,6 +311,44 @@ def pypsg_example(edf_path=None, matlab_path=None, channels = {"ppg": "", "ecg":
         hrv_df.to_csv(
             "temp_dir/hrv_summary.csv"
         )
+    
+    ## PCG ##
+
+    if pcg_name != '':
         
+        # 1. Create PCG signal object and normalize
+        pcg_signal = pcg.pcg_signal(signals[pcg_name]['signal'], signals[pcg_name]['fs'])
+        pcg_signal = pcg.normalize(pcg_signal)
+        
+        # 2. Preprocessing
+        lp_signal = pcg_preproc.filter(pcg_signal, lp_order=6, lp_cutoff=100, filt_type="LP")
+        bp_signal = pcg_preproc.filter(lp_signal, hp_order=6, hp_cutoff=20, filt_type="HP")
+        
+        denoise_signal = pcg_preproc.wt_denoise(bp_signal, th=0.2, wt_family="coif4", wt_level=5)
+        
+        env_signal = pcg_preproc.homomorphic(denoise_signal, filt_ord=6, filt_cutfreq=8)
+        
+        # 4. Detect s1 and s2 sounds
+        
+        peakvals, peaks = pcg_sgm.adv_peak(env_signal)
+        s1, s2 = pcg_sgm.peak_sort_diff(peaks)
+        
+        s1_start, s1_end = pcg_sgm.segment_peaks(s1, env_signal, start_drop=0.8, end_drop=0.7)
+        s2_start, s2_end = pcg_sgm.segment_peaks(s2, env_signal, start_drop=0.8, end_drop=0.7)
+        
+        # Check segmentation results
+        if len(s1_start) == 0 or len(s2_start) == 0:
+            raise ValueError("Segmentation did not detect both S1 and S2 sounds.")
+        
+        # 4. Extract S1 and S2 features
+        s1_features = extract_heart_sound_features(s1_start, s1_end, denoise_signal, env_signal, 1024)
+        
+        s2_features = extract_heart_sound_features(s2_start, s2_end, denoise_signal, env_signal, 1024)
+        
+        pcg_bms = {"S1": s1_features, "S2": s2_features}
+        
+        extracted_bms['pcg'] = pcg_bms
+
+
     # Save data into a .mat file
     save_data(extracted_bms, 'temp_dir/biomarkers')

@@ -11,6 +11,7 @@ pyPSG/IO/mesa-sleep-0006.edf
 sample_cut.edf
 
 temp.py
+pypcg_test.py
 
 dist
 *.egg-info
@@ -19,3 +20,4 @@ build
 my_data
 Szabi_meres
 
+requirements_before_pcg.txt
